@@ -119,8 +119,15 @@ export default {
           this.loading = true
           this.$store
             .dispatch('user/login', this.loginForm).then(res => {
+              console.log(res)
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
+              this.$notify({
+                title: 'Success',
+                dangerouslyUseHTMLString: true,
+                message: res.Msg,
+                type: 'Success'
+              })
             })
             .catch(() => {
               this.loading = false
