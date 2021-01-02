@@ -2,9 +2,16 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: 'http://127.0.0.1:7001/admin/login',
     method: 'post',
-    data
+    header: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      name: data.username,
+      password: data.password
+
+    }
   })
 }
 
