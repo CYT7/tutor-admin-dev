@@ -86,7 +86,7 @@ export default {
         ]
       },
       loading: false,
-      passwordType: 'password',
+      passwordType: 'password'
       // redirect: undefined
     }
   },
@@ -118,13 +118,8 @@ export default {
         if (valid) {
           this.loading = true
           this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(res => {
+            .dispatch('user/login', this.loginForm).then(res => {
               this.$router.push({ path: this.redirect || '/' })
-              // this.$message({
-              //   type: "success",
-              //   message: "登陆成功"
-              // });
               this.loading = false
             })
             .catch(() => {
