@@ -18,8 +18,8 @@ export function login(data) {
 export function getInfo(token) {
   return request({
     url: 'http://127.0.0.1:7001/admin/information',
-    method: 'get',
-    params: { token }
+    method: 'get'
+    // params: { token }
   })
 }
 
