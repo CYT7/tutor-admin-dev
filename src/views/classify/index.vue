@@ -10,21 +10,13 @@
     <el-table :data="tableData" style="width: 100%;margin-top: 30px;" highlight-current-row border>
       <el-table-column type="index" width="50" align="center" />
       <el-table-column label="父级ID" style="width: 20%" align="center">
-        <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.parentId }}</span>
-        </template>
+        <template slot-scope="scope"><span style="margin-left: 10px">{{ scope.row.parentId }}</span></template>
       </el-table-column>
       <el-table-column label="分类科目ID" style="width: 20%" align="center">
-        <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.id }}</span>
-        </template>
+        <template slot-scope="scope"><span style="margin-left: 10px">{{ scope.row.id }}</span></template>
       </el-table-column>
       <el-table-column label="分类科目名" style="width: 20%" align="center">
-        <template slot-scope="scope">
-          <div slot="reference" class="name-wrapper">
-            <span>{{ scope.row.name }}</span>
-          </div>
-        </template>
+        <template slot-scope="scope"><div slot="reference" class="name-wrapper"><span>{{ scope.row.name }}</span></div></template>
       </el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间" :formatter="formatDate" />
       <el-table-column label="状态" style="width: 20%" align="center">
@@ -36,7 +28,6 @@
           </div>
         </template>
       </el-table-column>
-
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-popconfirm title="确定删除此分类吗？" @onConfirm="handleDelete(scope.$index, scope.row)">
@@ -45,7 +36,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <el-dialog title="新建分类" :visible.sync="dialogVisible2" width="30%" :before-close="handleClose">
       <span slot="footer" class="dialog-footer">
         <template>
@@ -57,11 +47,11 @@
               label-width="140px"
               class="demo-ruleForm"
             >
+              <el-form-item label="父级id" prop="parentId">
+                <el-input v-model="ruleForm2.parentId" />
+              </el-form-item>
               <el-form-item label="分类科目名" prop="name">
                 <el-input v-model="ruleForm2.name" />
-              </el-form-item>
-               <el-form-item label="父级id" prop="parentId">
-                <el-input v-model="ruleForm2.parentId" />
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm2('ruleForm2')">立即创建</el-button>
@@ -75,12 +65,12 @@
 
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :hide-on-single-page="true"
         :page-size="List.per_page"
         layout="total, prev, pager, next, jumper"
         :page-count="List.total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
       ></el-pagination>
     </div>
   </div>
@@ -107,12 +97,12 @@ export default {
         region: [{ required: true, message: '请选择状态', trigger: 'blur' }]
       },
       ruleForm2: {
-        name: ''
+        name: '',
+        parentId: ''
       },
       rules2: {
         name: [{ required: true, message: '请输入分类名', trigger: 'blur' }]
-      },
-      input3: null
+      }
     }
   },
   created() {
@@ -193,26 +183,6 @@ export default {
       const s =
           date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
       return Y + M + D + h + m + s
-    },
-    search() {
-      if (this.input3 === null) {
-        this.request()
-      } else {
-        var str = this.input3.replace(/\s+/g, '')
-        if (str === '') {
-          this.request()
-        } else {
-          // categoryquery(str).then(res => {
-          //   this.tableData = res.results
-          // }).catch(res => {
-          //   this.tableData = []
-          // })
-        }
-      }
-    },
-    reset() {
-      this.input3 = null
-      this.request()
     }
   }
 }
@@ -226,7 +196,6 @@ export default {
     .permission-tree {
       margin-bottom: 30px;
     }
-
     .red {
       color: red;
     }
