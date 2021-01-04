@@ -28,3 +28,16 @@ export function logout() {
     method: 'post'
   })
 }
+// 用户信息接口
+export function index(query) {
+  return request({
+    url: 'http://127.0.0.1:7001/admin/user/list?page=' + query,
+    method: 'GET',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      page: query
+    }
+  })
+}
