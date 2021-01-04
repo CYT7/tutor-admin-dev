@@ -29,7 +29,7 @@ export function logout() {
   })
 }
 // 用户信息接口
-export function index(query) {
+export function user(query) {
   return request({
     url: 'http://127.0.0.1:7001/admin/user/list?page=' + query,
     method: 'GET',
@@ -41,3 +41,17 @@ export function index(query) {
     }
   })
 }
+// 老师信息接口
+export function teacher(query) {
+  return request({
+    url: 'http://127.0.0.1:7001/admin/teacher/list?page=' + query,
+    method: 'GET',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      page: query
+    }
+  })
+}
+

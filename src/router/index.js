@@ -70,19 +70,29 @@ export const constantRoutes = [
     path: '/user',
     component: Layout,
     redirect: '/user',
-    children: [{
-      path: '/user',
-      name: 'user',
-      component: () => import('@/views/user/index'),
-      meta: { title: '用户管理', icon: 'user' }
-    }]
+    name: 'User',
+    meta: { title: '用户管理', icon: 'user' },
+    children: [
+      {
+        path: 'user',
+        name: 'user',
+        component: () => import('@/views/user/index'),
+        meta: { title: '用户信息', icon: 'user' }
+      },
+      {
+        path: 'teacher',
+        name: 'teacher',
+        component: () => import('@/views/user/teacher'),
+        meta: { title: '老师信息', icon: 'user' }
+      }
+    ]
   },
   {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    meta: { title: '用户', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'table',

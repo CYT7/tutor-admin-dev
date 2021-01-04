@@ -2,18 +2,18 @@
   <div>
     <el-table ref="singleTable" :data="tableData" highlight-current-row border style="width: 100%">
       <el-table-column type="index" width="50" align="center" />
-      <el-table-column property="nickName" label="用户昵称" align="center" />
-      <el-table-column property="realName" label="姓名" align="center" />
-      <el-table-column property="phone" label="电话号码" align="center" />
-      <el-table-column property="email" label="邮箱" align="center" />
-      <el-table-column property="qq" label="QQ" align="center" />
-      <el-table-column property="wechat" label="微信号" align="center" />
+      <el-table-column property="User.nickName" label="用户昵称" align="center" />
+      <el-table-column property="User.realName" label="姓名" align="center" />
+      <el-table-column property="User.phone" label="电话号码" align="center" />
+      <el-table-column property="User.email" label="邮箱" align="center" />
+      <el-table-column property="User.qq" label="QQ" align="center" />
+      <el-table-column property="User.wechat" label="微信号" align="center" />
       <el-table-column label="头像路径" align="center">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-image
               style="height: 50px;width:50px"
-              :src="scope.row.image_url"
+              :src="scope.row.User.image_url"
               fit="cover"
             />
           </div>
@@ -21,8 +21,8 @@
       </el-table-column>
       <el-table-column label="性别" align="center">
         <template slot-scope="props">
-          <span v-if="props.row.gender === 1">男</span>
-          <span v-else-if="props.row.gender === 2">女</span>
+          <span v-if="props.row.User.gender === 1">男</span>
+          <span v-else-if="props.row.User.gender === 2">女</span>
           <span v-else>不知</span>
         </template>
       </el-table-column>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { user } from '@/api/user'
+import { teacher } from '@/api/user'
 export default {
   data() {
     return {
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     request() {
-      user(this.page).then(res => {
+      teacher(this.page).then(res => {
         console.log(res)
         this.tableData = res.data
         this.List = res
@@ -73,7 +73,7 @@ export default {
 
     handleCurrentChange(val) {
       this.page = val
-      user(val).then(res => {
+      teacher(val).then(res => {
         console.log(res)
         this.tableData = res.results
         this.List = res
@@ -105,21 +105,21 @@ export default {
       const date = new Date(parseInt(row.updateTime) * 1000)
       const Y = date.getFullYear() + '-'
       const M =
-        date.getMonth() + 1 < 10
-          ? '0' + (date.getMonth() + 1) + '-'
-          : date.getMonth() + 1 + '-'
+          date.getMonth() + 1 < 10
+            ? '0' + (date.getMonth() + 1) + '-'
+            : date.getMonth() + 1 + '-'
       const D =
-        date.getDate() < 10 ? '0' + date.getDate() + '' : date.getDate() + ''
+          date.getDate() < 10 ? '0' + date.getDate() + '' : date.getDate() + ''
       const h =
-        date.getHours() < 10
-          ? '0' + date.getHours() + ':'
-          : date.getHours() + ':'
+          date.getHours() < 10
+            ? '0' + date.getHours() + ':'
+            : date.getHours() + ':'
       const m =
-        date.getMinutes() < 10
-          ? '0' + date.getMinutes() + ':'
-          : date.getMinutes() + ':'
+          date.getMinutes() < 10
+            ? '0' + date.getMinutes() + ':'
+            : date.getMinutes() + ':'
       const s =
-        date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+          date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
       return Y + M + D + ' ' + h + m + s
     }
   }
