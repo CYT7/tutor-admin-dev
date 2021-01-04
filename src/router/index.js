@@ -88,6 +88,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/classify',
+    component: Layout,
+    children: [
+      {
+        path: '/classify',
+        name: 'classify',
+        component: () => import('@/views/classify/index'),
+        meta: { title: '分类', icon: 'form' }
+      }
+    ]
+  },
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
