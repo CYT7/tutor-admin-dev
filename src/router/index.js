@@ -100,12 +100,36 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/classify',
+    component: Layout,
+    children: [
+      {
+        path: '/classify',
+        name: 'classify',
+        component: () => import('@/views/classify/index'),
+        meta: { title: '需求管理', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/classify',
+    component: Layout,
+    children: [
+      {
+        path: '/classify',
+        name: 'classify',
+        component: () => import('@/views/classify/index'),
+        meta: { title: '预约管理', icon: 'form' }
+      }
+    ]
+  },
+  {
     path: 'external-link',
     component: Layout,
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: { title: '前台网站', icon: 'link' }
       }
     ]
   },
