@@ -84,28 +84,28 @@
             </div>
             <template>
               <el-form
-                ref="ruleForm"
-                :model="ruleForm"
+                ref="adminForm"
+                :model="adminForm"
                 status-icon
                 :rules="rules"
                 label-width="90px"
                 class="demo-ruleForm"
               >
                 <el-form-item label="管理员姓名" prop="realName">
-                  <el-input v-model="ruleForm.realName" />
+                  <el-input v-model="adminForm.realName" />
                 </el-form-item>
                 <el-form-item label="旧密码" prop="oldpassword">
-                  <el-input v-model="ruleForm.oldpassword" placeholder="请输入正在使用的密码" type="password" autocomplete="off" />
+                  <el-input v-model="adminForm.oldpassword" placeholder="请输入密码" type="password" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="新密码" prop="pass">
-                  <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+                  <el-input v-model="adminForm.pass" type="password" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPass">
-                  <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
+                  <el-input v-model="adminForm.checkPass" type="password" autocomplete="off" />
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                  <el-button @click="resetForm('ruleForm')">重置</el-button>
+                  <el-button type="primary" @click="submitForm('adminForm')">提交</el-button>
+                  <el-button @click="resetForm('adminForm')">重置</el-button>
                 </el-form-item>
               </el-form>
             </template>
@@ -120,13 +120,13 @@ import { profile, modification } from '@/api/personal'
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
-      if (this.ruleForm.checkPass !== '') {
-        this.$refs.ruleForm.validateField('checkPass')
+      if (this.adminForm.checkPass !== '') {
+        this.$refs.adminForm.validateField('checkPass')
       }
       callback()
     }
     var validatePass2 = (rule, value, callback) => {
-      if (value !== this.ruleForm.pass) {
+      if (value !== this.adminForm.pass) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -138,7 +138,7 @@ export default {
       loading: true,
       resultsMap: {},
       values: null,
-      ruleForm: {
+      adminForm: {
         realName: '',
         pass: '',
         checkPass: '',
@@ -156,7 +156,6 @@ export default {
   },
   methods: {
     getList() {
-      // this.loading = true;
       profile().then(res => {
         this.resultsMap = res.data
         console.log(this.CreateTime)
@@ -169,11 +168,11 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var data = {
-            realName: this.ruleForm.realName,
-            oldPassword: this.ruleForm.oldpassword,
-            newPassword: this.ruleForm.pass
+            realName: this.adminForm.realName,
+            oldPassword: this.adminForm.oldpassword,
+            newPassword: this.adminForm.pass
           }
-          console.log(data)
+          console.log(data.realName)
           modification(data).then(res => {
             this.$notify({
               title: '成功',
