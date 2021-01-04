@@ -91,7 +91,10 @@
                 label-width="90px"
                 class="demo-ruleForm"
               >
-                <el-form-item label="旧密码" prop="oldpassword" :rules="[{ required: true, message: '旧密码不能为空'}]">
+                <el-form-item label="管理员姓名" prop="realName">
+                  <el-input v-model="ruleForm.realName" />
+                </el-form-item>
+                <el-form-item label="旧密码" prop="oldpassword">
                   <el-input v-model="ruleForm.oldpassword" placeholder="请输入正在使用的密码" type="password" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="新密码" prop="pass">
@@ -99,9 +102,6 @@
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPass">
                   <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
-                </el-form-item>
-                <el-form-item label="管理员姓名" prop="realname">
-                  <el-input v-model="ruleForm.realname" type="text" autocomplete="off" />
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -139,10 +139,10 @@ export default {
       resultsMap: {},
       values: null,
       ruleForm: {
+        realName: '',
         pass: '',
         checkPass: '',
-        oldpassword: '',
-        realname: ''
+        oldpassword: ''
       },
       rules: {
         pass: [{ validator: validatePass, trigger: 'blur' }],
@@ -163,17 +163,17 @@ export default {
         this.resultsMap.status === 1
           ? (this.values = true)
           : (this.values = false)
-          // this.loading = false;
       })
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var data = {
-            realName: this.ruleForm.realname,
+            realName: this.ruleForm.realName,
             oldPassword: this.ruleForm.oldpassword,
             newPassword: this.ruleForm.pass
           }
+          console.log(data)
           modification(data).then(res => {
             this.$notify({
               title: '成功',
