@@ -1,16 +1,16 @@
 <template>
   <div class="app-container" style="width:100%;min-width:1500px">
-    <h2 style="margin-left:15%">个人中心</h2>
+    <h2 style="margin-left:14%">个人中心</h2>
     <el-container style="border: 1px solid #eee">
       <el-aside width="40%">
         <el-card style="margin:20px" class="box-card">
-          <div slot="header" class="clearfix">
+          <div slot="header" class="el-dialog--center">
             <span>管理员个人信息</span>
           </div>
           <div style="padding-top:20px">
             <el-row :gutter="20">
               <el-col :span="6">
-                <div class="grid-content bg-purple">管理员id</div>
+                <div class="grid-content bg-purple">管理员ID</div>
               </el-col>
               <el-col :span="17" :offset="1">
                 <div style="text-align:right" class="grid-content bg-purple">{{ resultsMap.id }}</div>
@@ -19,32 +19,25 @@
             <el-divider />
             <el-row :gutter="20">
               <el-col :span="6">
-                <div class="grid-content bg-purple">用户名</div>
+                <div class="grid-content bg-purple">管理员用户名</div>
               </el-col>
               <el-col :span="17" :offset="1">
-                <div
-                  style="text-align:right"
-                  class="grid-content bg-purple"
-                >{{ resultsMap.name }}</div>
+                <div style="text-align:right" class="grid-content bg-purple">{{ resultsMap.name }}</div>
               </el-col>
             </el-row>
             <el-divider />
             <el-row :gutter="20">
               <el-col :span="6">
-                <div class="grid-content bg-purple">姓名</div>
+                <div class="grid-content bg-purple">管理员姓名</div>
               </el-col>
               <el-col :span="17" :offset="1">
-                <div
-                  style="text-align:right"
-                  class="grid-content bg-purple"
-                >{{ resultsMap.realName }}</div>
+                <div style="text-align:right" class="grid-content bg-purple">{{ resultsMap.realName }}</div>
               </el-col>
             </el-row>
             <el-divider />
-            <el-divider />
             <el-row :gutter="20">
               <el-col :span="6">
-                <div class="grid-content bg-purple">状态</div>
+                <div class="grid-content bg-purple">管理员状态</div>
               </el-col>
               <el-col :span="17" :offset="1">
                 <div style="text-align:right" class="grid-content bg-purple">
@@ -67,23 +60,27 @@
                 <div class="grid-content bg-purple">创建时间</div>
               </el-col>
               <el-col :span="17" :offset="1">
-                <div
-                  style="text-align:right"
-                  class="grid-content bg-purple"
-                >{{ formatDate(resultsMap.createTime) }}</div>
+                <div style="text-align:right" class="grid-content bg-purple">{{ formatDate(resultsMap.createTime) }}</div>
               </el-col>
             </el-row>
             <el-divider />
+            <el-row :gutter="20">
+              <el-col :span="6">
+                <div class="grid-content bg-purple">更新时间</div>
+              </el-col>
+              <el-col :span="17" :offset="1">
+                <div style="text-align:right" class="grid-content bg-purple">{{ formatDate(resultsMap.updateTime) }}</div>
+              </el-col>
+            </el-row>
             <el-divider />
           </div>
         </el-card>
       </el-aside>
-
       <el-container>
         <el-main>
           <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span>修改密码</span>
+            <div slot="header" class="el-dialog--center">
+              <span>修改</span>
             </div>
             <template>
               <el-form
@@ -91,21 +88,20 @@
                 :model="ruleForm"
                 status-icon
                 :rules="rules"
-                label-width="100px"
+                label-width="90px"
                 class="demo-ruleForm"
               >
-                <el-form-item
-                  label="旧密码"
-                  prop="oldpass"
-                  :rules="[{ required: true, message: '旧密码不能为空'}]"
-                >
-                  <el-input v-model="ruleForm.oldpass" type="password" autocomplete="off" />
+                <el-form-item label="旧密码" prop="oldpassword" :rules="[{ required: true, message: '旧密码不能为空'}]">
+                  <el-input v-model="ruleForm.oldpassword" placeholder="请输入正在使用的密码" type="password" autocomplete="off" />
                 </el-form-item>
-                <el-form-item label="密码" prop="pass">
+                <el-form-item label="新密码" prop="pass">
                   <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPass">
                   <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="管理员姓名" prop="realname">
+                  <el-input v-model="ruleForm.realname" type="text" autocomplete="off" />
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -124,19 +120,13 @@ import { profile, modification } from '@/api/personal'
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入新密码'))
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass')
-        }
-        callback()
+      if (this.ruleForm.checkPass !== '') {
+        this.$refs.ruleForm.validateField('checkPass')
       }
+      callback()
     }
     var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.ruleForm.pass) {
+      if (value !== this.ruleForm.pass) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -144,7 +134,6 @@ export default {
     }
     return {
       CreateTime: '',
-      LoginTime: '',
       disabled: true,
       loading: true,
       resultsMap: {},
@@ -152,7 +141,8 @@ export default {
       ruleForm: {
         pass: '',
         checkPass: '',
-        oldpass: ''
+        oldpassword: '',
+        realname: ''
       },
       rules: {
         pass: [{ validator: validatePass, trigger: 'blur' }],
@@ -168,7 +158,7 @@ export default {
     getList() {
       // this.loading = true;
       profile().then(res => {
-        this.resultsMap = res.results
+        this.resultsMap = res.data
         console.log(this.CreateTime)
         this.resultsMap.status === 1
           ? (this.values = true)
@@ -180,9 +170,9 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var data = {
-            oldPassword: this.ruleForm.oldpass,
-            newPassword: this.ruleForm.pass,
-            realname: this.resultsMap.realname
+            realName: this.ruleForm.realname,
+            oldPassword: this.ruleForm.oldpassword,
+            newPassword: this.ruleForm.pass
           }
           modification(data).then(res => {
             this.$notify({

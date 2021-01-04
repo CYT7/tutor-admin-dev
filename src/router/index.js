@@ -62,8 +62,8 @@ export const constantRoutes = [
       path: '/personal',
       name: 'Personal',
       component: () => import('@/views/personal/index'),
-      meta: { title: '个人中心', icon: 'dashboard' },
-      hidden: true
+      meta: { title: '个人中心', icon: 'dashboard' }
+      // hidden: true
     }]
   },
   {
