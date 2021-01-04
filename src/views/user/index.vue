@@ -19,6 +19,13 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column label="性别" align="center">
+        <template slot-scope="props">
+          <span v-if="props.row.gender === 1">男</span>
+          <span v-else-if="props.row.gender === 2">女</span>
+          <span v-else>不知</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间" :formatter="formatDate" />
       <el-table-column align="center" property="updateTime" label="更新时间" :formatter="formatDate1" />
       <el-table-column align="center" label="用户状态">
