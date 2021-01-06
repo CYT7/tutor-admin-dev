@@ -1,0 +1,322 @@
+<template>
+  <div>
+    <el-header style="margin-top:15px">
+      <el-checkbox
+        v-model="checkAll"
+        :indeterminate="isIndeterminate"
+        @change="handleCheckAllChange"
+      >
+        <el-tag effect="dark">全部</el-tag>
+      </el-checkbox>
+      <div style="margin: 15px 0;" />
+      <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+        <el-checkbox v-for="(city,index) in cities" :key="index" :label="city.value">
+          <el-tag :type="city.type">{{ city.label }}</el-tag>
+        </el-checkbox>
+      </el-checkbox-group>
+    </el-header>
+    <el-table
+      v-loading="loading"
+      :data="this.list"
+      border
+      fit
+      stripe
+      style="width: 100%;margin-top:30px"
+    >
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="中标的老师">
+              <span>{{ props.row.teacher.User.nickName }}</span>
+            </el-form-item>
+          </el-form>
+          <el-form label-position="left">
+            <el-form-item label="详情信息">
+              <template>
+                <el-table style="width: 100%" border height="250">
+                  <el-table-column prop="nickName" label="同学称呼" align="center" />
+                  <el-table-column prop="subject" label="科目" align="center" />
+                  <el-table-column prop="teach_date" label="上课时间" align="center" />
+                </el-table>
+              </template>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+      <el-table-column label="需求 ID" prop="id" align="center" />
+      <el-table-column label="需上课几次" prop="frequency" align="center" />
+      <el-table-column label="每次上课几小时" prop="timeHour" align="center" />
+      <el-table-column label="每小时几元" align="center">
+        <template slot-scope="scope">
+          <p>{{ scope.row.hourPrice }}元</p>
+        </template>
+      </el-table-column>
+      <el-table-column label="需求总报价" align="center">
+        <template slot-scope="scope">
+          <p>{{ scope.row.totalPrice }}元</p>
+        </template>
+      </el-table-column>
+      <el-table-column label="需求创建人" prop="User.nickName" align="center" />
+      <el-table-column label="需求创建时间" prop="createTime" :formatter="formatDate" align="center" />
+      <el-table-column label="需求更新时间" prop="updateTime" :formatter="formatDate1" align="center" />
+      <el-table-column label="需求状态" prop="state" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.state === 1" style="font-weight: bolder">审核中</div>
+          <div
+            v-else-if="scope.row.state === 2"
+            style="color: #F56C6C; font-weight: bolder"
+          >审核不通过</div>
+          <div
+            v-else-if="scope.row.state === 3"
+            style="color: #409EFF; font-weight: bolder"
+          >审核通过</div>
+          <div
+            v-else-if="scope.row.state === 4"
+            style="color: #E6A23C; font-weight: bolder"
+          >已选定</div>
+          <div
+            v-else-if="scope.row.state === 5"
+            style="color: #67C23A; font-weight: bolder"
+          >已完成</div>
+          <div v-else style="color: #F56C6C; font-weight: bolder">已关闭</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" min-width="100%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.state === 1">
+            <el-button size="mini" type="primary" @click="handleAccept(scope.row.id)">通过</el-button>
+          </span>
+          <span v-else-if="scope.row.state === 2">
+            <el-button size="mini" type="warning" @click="handlePrint(scope.row.id)">不通过</el-button>
+          </span>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="block" style="text-align:center;margin-top:20px">
+      <el-pagination
+        :hide-on-single-page="true"
+        :page-size="tableData.per_page"
+        layout="total, prev, pager, next, jumper"
+        :page-count="tableData.total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+const cityOptions = [
+  { type: 'info', label: '需求待审核', value: 1 },
+  { type: 'warning', label: '需求审核通过', value: 2 },
+  { type: 'success', label: '需求审核不通过', value: 3 },
+  { type: 'danger', label: '需求已选定老师', value: 4 },
+  { type: '', label: '需求已完成', value: 5 },
+  { type: '', label: '需求已关闭', value: 6 }
+]
+import { getNeedList, getNeedListForType, agreeNeed, disagreeNeed } from '@/api/need'
+export default {
+  data() {
+    return {
+      tableData: [],
+      arr: [1, 2, 3, 4, 5, 6],
+      checkAll: false,
+      checkedCities: [1, 2, 3, 4, 5, 6],
+      selectionArr: [],
+      allElection: [],
+      cities: cityOptions,
+      isIndeterminate: true,
+      loading: true,
+      page: 1,
+      list: [],
+      tmp: {},
+      dialogFormVisible: false,
+      dialogVisible: false
+    }
+  },
+
+  created() {
+    this.getList()
+  },
+  mounted() {
+    this.allElectionFun()
+    this.DefaultFullSelection()
+  },
+  methods: {
+    getList() {
+      this.loading = true
+      getNeedList(this.page)
+        .then(response => {
+          console.log('orders: ', response)
+          this.list = response.data
+          this.tableData = response
+          this.loading = false
+        })
+        .catch(response => {
+          this.list = []
+          this.tableData = []
+          this.loading = false
+        })
+    },
+    handleEdit(index, row) {
+      this.dialogVisible = true
+    },
+    handleAccept(id) {
+      this.loading = true
+      agreeNeed(id).then(res => {
+        this.$notify({
+          title: '成功',
+          message: res.msg,
+          type: 'success'
+        })
+        this.getList()
+      })
+    },
+    handlePrint(id) {
+      this.loading = true
+      disagreeNeed(id).then(res => {
+        this.$notify({
+          title: '成功',
+          message: res.msg,
+          type: 'success'
+        })
+        this.getList()
+      })
+    },
+    DefaultFullSelection() {
+      this.checkedCities = this.allElection
+      const checkedCount = this.checkedCities.length
+      this.checkAll = checkedCount === this.cities.length
+      this.isIndeterminate =
+          checkedCount > 0 && checkedCount < this.cities.length
+      this.selectionFun(this.checkedCities)
+    },
+    allElectionFun() {
+      this.allElection = []
+      for (var i = 0; i < this.cities.length; i++) {
+        this.allElection.push(this.cities[i].value)
+      }
+    },
+    selectionFun(selectionArr) {
+      this.selectionArr = []
+      for (var i = 0; i < this.cities.length; i++) {
+        for (var j = 0; j < selectionArr.length; j++) {
+          if (selectionArr[j] === this.cities[i].value) {
+            this.selectionArr.push(this.cities[i])
+          }
+        }
+      }
+    },
+    handleCheckAllChange(val) {
+      this.allElectionFun()
+      this.checkedCities = val ? this.arr : []
+      this.isIndeterminate = false
+      this.loading = true
+      this.handleCheckedCitiesChange(this.checkedCities)
+    },
+    handleCheckedCitiesChange(value) {
+      const checkedCount = value.length
+      this.checkAll = checkedCount === this.cities.length
+      this.isIndeterminate =
+          checkedCount > 0 && checkedCount < this.cities.length
+      if (checkedCount === 0) {
+        value = [-1]
+      }
+      this.loading = true
+      getNeedListForType(this.page, value)
+        .then(res => {
+          this.list = res.data
+          this.tableData = res
+          this.loading = false
+        })
+        .catch(res => {
+          this.list = []
+          this.tableData = res
+          this.loading = false
+        })
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange(val) {
+      this.page = val
+      getNeedList(this.page).then(res => {
+        console.log(res)
+        this.list = res.results
+      })
+      console.log(val)
+      // console.log(`当前页: ${val}`);
+    },
+    formatDate(row, column) {
+      const date = new Date(parseInt(row.createTime) * 1000)
+      const Y = date.getFullYear() + '-'
+      const M =
+          date.getMonth() + 1 < 10
+            ? '0' + (date.getMonth() + 1) + '-'
+            : date.getMonth() + 1 + '-'
+      const D =
+          date.getDate() < 10 ? '0' + date.getDate() + ' ' : date.getDate() + ' '
+      const h =
+          date.getHours() < 10
+            ? '0' + date.getHours() + ':'
+            : date.getHours() + ':'
+      const m =
+          date.getMinutes() < 10
+            ? '0' + date.getMinutes() + ':'
+            : date.getMinutes() + ':'
+      const s =
+          date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+      return Y + M + D + h + m + s
+    },
+    formatDate1(row, column) {
+      if (!row.updateTime) {
+        return
+      } else {
+        const date = new Date(parseInt(row.updateTime) * 1000)
+        const Y = date.getFullYear() + '-'
+        const M =
+            date.getMonth() + 1 < 10
+              ? '0' + (date.getMonth() + 1) + '-'
+              : date.getMonth() + 1 + '-'
+        const D =
+            date.getDate() < 10
+              ? '0' + date.getDate() + ' '
+              : date.getDate() + ' '
+        const h =
+            date.getHours() < 10
+              ? '0' + date.getHours() + ':'
+              : date.getHours() + ':'
+        const m =
+            date.getMinutes() < 10
+              ? '0' + date.getMinutes() + ':'
+              : date.getMinutes() + ':'
+        const s =
+            date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+        return Y + M + D + h + m + s
+      }
+    },
+    formatFee(row, column) {
+      if (!row.cashFee) {
+        return
+      } else {
+        return row.cashFee / 100 + '元'
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+</style>

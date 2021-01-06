@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { category, remove, add } from '@/api/classify'
+import { category, remove, add } from '@/api/category'
 export default {
   data() {
     return {

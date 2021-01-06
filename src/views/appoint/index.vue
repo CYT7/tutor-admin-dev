@@ -1,0 +1,259 @@
+<template>
+  <div>
+    <el-header style="margin-top:15px">
+      <el-checkbox
+        v-model="checkAll"
+        :indeterminate="isIndeterminate"
+        @change="handleCheckAllChange"
+      >
+        <el-tag effect="dark">全部</el-tag>
+      </el-checkbox>
+      <div style="margin: 15px 0;"></div>
+      <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+        <el-checkbox v-for="(city,index) in cities" :key="index" :label="city.value">
+          <el-tag :type="city.type">{{ city.label }}</el-tag>
+        </el-checkbox>
+      </el-checkbox-group>
+    </el-header>
+    <el-table
+      v-loading="loading"
+      :data="this.list"
+      border
+      fit
+      stripe
+      style="width: 100%;margin-top:30px"
+    >
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="学生称呼">
+              <span>{{ props.row.name }}</span>
+            </el-form-item>
+          </el-form>
+          <el-form label-position="left">
+            <el-form-item label="详情信息">
+              <template>
+                <el-table :data="props.row.Product" style="width: 100%" border height="250">
+                  <el-table-column prop="address" label="上课地址" align="center" />
+                  <el-table-column prop="subject" label="科目" align="center" />
+                </el-table>
+              </template>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+      <el-table-column label="预约 ID" prop="id" align="center" />
+      <el-table-column label="需要授课几次" prop="frequency" align="center" />
+      <el-table-column label="每小时几元" prop="cashFee" align="center" />
+      <el-table-column label="老师报价" prop="totalPrice" align="center" />
+      <el-table-column label="预约创建时间" prop="createTime" :formatter="formatDate" align="center" />
+      <el-table-column label="预约更新时间" prop="updateTime" :formatter="formatDate1" align="center" />
+      <el-table-column label="预约创建人" prop="User.nickName" align="center" />
+      <el-table-column label="预约的老师" prop="teacher.User.nickName" align="center" />
+      <el-table-column label="预约状态" prop="orderStatus" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.state === 0" style="font-weight: bolder">未预约</div>
+          <div v-else-if="scope.row.state === 1" style="color: #409EFF; font-weight: bolder">已预约 待付款</div>
+          <div v-else-if="scope.row.state === 2" style="color: #E6A23C; font-weight: bolder">进行中</div>
+          <div v-else-if="scope.row.state === 3" style="color: #67C23A; font-weight: bolder" >已完成</div>
+          <div v-else style="color: #F56C6C; font-weight: bolder">已关闭</div>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="block" style="text-align:center;margin-top:20px">
+      <el-pagination
+        :hide-on-single-page="true"
+        :page-size="tableData.per_page"
+        layout="total, prev, pager, next, jumper"
+        :page-count="tableData.total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+const cityOptions = [
+  { type: 'info', label: '未回应预约', value: 0 },
+  { type: '', label: '已预约', value: 1 },
+  { type: 'success', label: '预约已完成', value: 3 },
+  { type: 'warning', label: '预约进行中', value: 2 },
+  { type: 'danger', label: '预约已关闭', value: 4 }
+]
+import { getAppointsList, getAppointsListForType } from '@/api/appoint'
+export default {
+  data() {
+    return {
+      tableData: [],
+      arr: [0, 1, 2, 3, 4],
+      checkAll: false,
+      checkedCities: [0, 1, 2, 3, 4],
+      selectionArr: [],
+      allElection: [],
+      cities: cityOptions,
+      isIndeterminate: true,
+      loading: true,
+      page: 1,
+      list: [],
+      tmp: {},
+      dialogFormVisible: false,
+      dialogVisible: false
+    }
+  },
+
+  created() {
+    this.getList()
+  },
+  mounted() {
+    this.allElectionFun()
+    this.DefaultFullSelection()
+  },
+  methods: {
+    getList() {
+      this.loading = true
+      getAppointsList(this.page)
+        .then(response => {
+          console.log('orders: ', response)
+          this.list = response.data
+          this.tableData = response
+          this.loading = false
+        })
+        .catch(response => {
+          this.list = []
+          this.tableData = []
+          this.loading = false
+        })
+    },
+    handleEdit(index, row) {
+      this.dialogVisible = true
+    },
+    DefaultFullSelection() {
+      this.checkedCities = this.allElection
+      const checkedCount = this.checkedCities.length
+      this.checkAll = checkedCount === this.cities.length
+      this.isIndeterminate =
+          checkedCount > 0 && checkedCount < this.cities.length
+      this.selectionFun(this.checkedCities)
+    },
+    allElectionFun() {
+      this.allElection = []
+      for (var i = 0; i < this.cities.length; i++) {
+        this.allElection.push(this.cities[i].value)
+      }
+    },
+    selectionFun(selectionArr) {
+      this.selectionArr = []
+      for (var i = 0; i < this.cities.length; i++) {
+        for (var j = 0; j < selectionArr.length; j++) {
+          if (selectionArr[j] === this.cities[i].value) {
+            this.selectionArr.push(this.cities[i])
+          }
+        }
+      }
+    },
+    handleCheckAllChange(val) {
+      this.allElectionFun()
+      this.checkedCities = val ? this.arr : []
+      this.isIndeterminate = false
+      this.loading = true
+      this.handleCheckedCitiesChange(this.checkedCities)
+    },
+    handleCheckedCitiesChange(value) {
+      const checkedCount = value.length
+      this.checkAll = checkedCount === this.cities.length
+      this.isIndeterminate =
+          checkedCount > 0 && checkedCount < this.cities.length
+      if (checkedCount === 0) {
+        value = [-1]
+      }
+      this.loading = true
+      getAppointsListForType(this.page, value)
+        .then(res => {
+          this.list = res.data
+          this.tableData = res
+          this.loading = false
+        })
+        .catch(res => {
+          this.list = []
+          this.tableData = res
+          this.loading = false
+        })
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange(val) {
+      this.page = val
+      getAppointsList(this.page).then(res => {
+        console.log(res)
+        this.list = res.results
+      })
+      console.log(val)
+    },
+    formatDate(row, column) {
+      const date = new Date(parseInt(row.createTime) * 1000)
+      const Y = date.getFullYear() + '-'
+      const M =
+          date.getMonth() + 1 < 10
+            ? '0' + (date.getMonth() + 1) + '-'
+            : date.getMonth() + 1 + '-'
+      const D =
+          date.getDate() < 10 ? '0' + date.getDate() + ' ' : date.getDate() + ' '
+      const h =
+          date.getHours() < 10
+            ? '0' + date.getHours() + ':'
+            : date.getHours() + ':'
+      const m =
+          date.getMinutes() < 10
+            ? '0' + date.getMinutes() + ':'
+            : date.getMinutes() + ':'
+      const s =
+          date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+      return Y + M + D + h + m + s
+    },
+    formatDate1(row, column) {
+      if (!row.updateTime) {
+        return
+      } else {
+        const date = new Date(parseInt(row.updateTime) * 1000)
+        const Y = date.getFullYear() + '-'
+        const M =
+            date.getMonth() + 1 < 10
+              ? '0' + (date.getMonth() + 1) + '-'
+              : date.getMonth() + 1 + '-'
+        const D =
+            date.getDate() < 10
+              ? '0' + date.getDate() + ' '
+              : date.getDate() + ' '
+        const h =
+            date.getHours() < 10
+              ? '0' + date.getHours() + ':'
+              : date.getHours() + ':'
+        const m =
+            date.getMinutes() < 10
+              ? '0' + date.getMinutes() + ':'
+              : date.getMinutes() + ':'
+        const s =
+            date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+        return Y + M + D + h + m + s
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+</style>

@@ -88,38 +88,38 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/classify',
+    path: '/category',
     component: Layout,
     children: [
       {
-        path: '/classify',
-        name: 'classify',
-        component: () => import('@/views/classify/index'),
+        path: '/category',
+        name: 'category',
+        component: () => import('@/views/category/index'),
         meta: { title: '分类管理', icon: 'form' }
       }
     ]
   },
   {
-    path: '/classify',
+    path: '/appoint',
     component: Layout,
     children: [
       {
-        path: '/classify',
-        name: 'classify',
-        component: () => import('@/views/classify/index'),
-        meta: { title: '需求管理', icon: 'form' }
+        path: '/appoint',
+        name: 'appoint',
+        component: () => import('@/views/appoint/index'),
+        meta: { title: '预约管理', icon: 'time' }
       }
     ]
   },
   {
-    path: '/classify',
+    path: '/need',
     component: Layout,
     children: [
       {
-        path: '/classify',
-        name: 'classify',
-        component: () => import('@/views/classify/index'),
-        meta: { title: '预约管理', icon: 'form' }
+        path: '/need',
+        name: 'need',
+        component: () => import('@/views/need/index'),
+        meta: { title: '需求管理', icon: 'order' }
       }
     ]
   },
