@@ -2,8 +2,9 @@
   <div>
     <el-table ref="singleTable" :data="tableData" highlight-current-row border style="width: 100%">
       <el-table-column type="index" width="50" align="center" />
+      <el-table-column property="id" label="用户ID" align="center" />
       <el-table-column property="nickName" label="用户昵称" align="center" />
-      <el-table-column property="realName" label="姓名" align="center" />
+      <el-table-column property="realName" label="真实姓名" align="center" />
       <el-table-column property="phone" label="电话号码" align="center" />
       <el-table-column property="email" label="邮箱" align="center" />
       <el-table-column property="qq" label="QQ" align="center" />
@@ -27,7 +28,7 @@
         </template>
       </el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间" :formatter="formatDate" />
-      <el-table-column align="center" property="updateTime" label="更新时间" :formatter="formatDate1" />
+      <el-table-column align="center" property="loginTime" label="最后一次登录时间" :formatter="formatDate1" />
       <el-table-column align="center" label="用户状态">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
@@ -102,7 +103,7 @@ export default {
       return Y + M + D + ' ' + h + m + s
     },
     formatDate1(row) {
-      const date = new Date(parseInt(row.updateTime) * 1000)
+      const date = new Date(parseInt(row.loginTime) * 1000)
       const Y = date.getFullYear() + '-'
       const M =
         date.getMonth() + 1 < 10

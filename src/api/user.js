@@ -54,4 +54,29 @@ export function teacher(query) {
     }
   })
 }
-
+// 老师审核通过接口
+export function Agree(id) {
+  return request({
+    url: 'http://127.0.0.1:7001/admin/teacher/agree',
+    method: 'POST',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      id: id
+    }
+  })
+}
+// 老师审核不通过接口
+export function Disagree(id) {
+  return request({
+    url: 'http://127.0.0.1:7001/admin/teacher/disagree',
+    method: 'POST',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      id: id
+    }
+  })
+}

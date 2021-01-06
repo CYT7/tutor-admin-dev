@@ -21,7 +21,8 @@ export function add(query) {
       'Content-Type': 'application/json'
     },
     data: {
-      categoryName: query
+      name: query.name,
+      parentId: query.parentId,
     }
   })
 }
@@ -34,7 +35,7 @@ export function remove(query) {
       'Content-Type': 'application/json'
     },
     data: {
-      categoryId: query
+      id: query
     }
   })
 }

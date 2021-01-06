@@ -1,13 +1,8 @@
 <template>
   <div>
     <el-table ref="singleTable" :data="tableData" highlight-current-row border style="width: 100%">
-      <el-table-column type="index" width="50" align="center" />
-      <el-table-column property="User.nickName" label="用户昵称" align="center" />
-      <el-table-column property="User.realName" label="姓名" align="center" />
-      <el-table-column property="User.phone" label="电话号码" align="center" />
-      <el-table-column property="User.email" label="邮箱" align="center" />
-      <el-table-column property="User.qq" label="QQ" align="center" />
-      <el-table-column property="User.wechat" label="微信号" align="center" />
+      <el-table-column type="index" width="30" align="center" />
+      <el-table-column property="id" label="老师ID" align="center" />
       <el-table-column label="头像路径" align="center">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
@@ -19,6 +14,14 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column property="User.nickName" label="用户昵称" align="center" />
+      <el-table-column property="User.realName" label="姓名" align="center" />
+      <el-table-column property="User.phone" label="电话号码" align="center" />
+      <el-table-column property="totalSuccess" label="成功次数" align="center" />
+      <el-table-column property="experience" label="教学经验(年)" align="center" />
+      <el-table-column property="age" label="年龄" align="center" />
+      <!--      <el-table-column property="goodAt" label="擅长科目" align="center" />-->
+      <el-table-column property="hourPrice" label="课时费用" align="center" />
       <el-table-column label="性别" align="center">
         <template slot-scope="props">
           <span v-if="props.row.User.gender === 1">男</span>
@@ -28,11 +31,17 @@
       </el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间" :formatter="formatDate" />
       <el-table-column align="center" property="updateTime" label="更新时间" :formatter="formatDate1" />
-      <el-table-column align="center" label="用户状态">
-        <template slot-scope="scope">
-          <div slot="reference" class="name-wrapper">
-            <span :class="{red:scope.row.status != 1}">{{ scope.row.status == 1?'正常':'不正常' }}</span>
-          </div>
+      <el-table-column align="center" label="审核状态">
+        <template slot-scope="props">
+          <span v-if="props.row.state === 2 ">不通过</span>
+          <span v-else-if="props.row.state === 3">通过</span>
+          <span v-else>已提交</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center">
+        <template slot-scope="props">
+          <el-button size="mini" @click="handleAgree(props.$index, props.row)">通过</el-button>
+          <el-button slot="reference" size="mini" type="danger" @click="handleDisagree(props.$index, props.row)">不通过</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -50,7 +59,7 @@
 </template>
 
 <script>
-import { teacher } from '@/api/user'
+import { teacher, Agree, Disagree } from '@/api/user'
 export default {
   data() {
     return {
@@ -70,7 +79,6 @@ export default {
         this.List = res
       })
     },
-
     handleCurrentChange(val) {
       this.page = val
       teacher(val).then(res => {
@@ -79,6 +87,20 @@ export default {
         this.List = res
       })
       console.log(val)
+    },
+    handleAgree(index, row) {
+      Agree(row.id).then(res => {
+        console.log(res)
+        this.request()
+      })
+      console.log(index, row.id)
+    },
+    handleDisagree(index, row) {
+      Disagree(row.id).then(res => {
+        console.log(res)
+        this.request()
+      })
+      console.log(index, row.id)
     },
     formatDate(row) {
       const date = new Date(parseInt(row.createTime) * 1000)
