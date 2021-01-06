@@ -70,16 +70,16 @@
         class="demo-ruleForm"
       >
         <el-form-item label="登录名" prop="name" style="width:400px">
-          <el-input v-model="ruleForm2.name" placeholder="请输入管理员登录名" />
+          <el-input v-model="ruleForm2.name" placeholder="请输入登录名" />
         </el-form-item>
         <el-form-item label="密码" prop="password" style="width:400px">
-          <el-input v-model="ruleForm2.password" placeholder="请输入管理员登录名" />
+          <el-input v-model="ruleForm2.password" placeholder="请输入密码" />
         </el-form-item>
         <el-form-item label="真实姓名" prop="realName" style="width:400px">
-          <el-input v-model="ruleForm2.realName" placeholder="请输入管理员登录名" />
+          <el-input v-model="ruleForm2.realName" placeholder="请输入真实姓名" />
         </el-form-item>
         <el-form-item style="width:400px">
-          <el-button type="primary" @click="submitForm2('ruleForm2')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm2('ruleForm2')">创建</el-button>
           <el-button @click="resetForm2('ruleForm2')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -154,7 +154,8 @@ export default {
       Delete(row.id).then(res => {
         console.log(res)
         this.request()
-      })
+      });
+      console.log(index, row.id);
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
@@ -169,7 +170,7 @@ export default {
           console.log('password:' + this.ruleForm.password)
           Modify(this.ruleForm).then(res => {
             console.log(res)
-            if (res.errCode === 0) {
+            if (res.code === 0) {
               this.request()
               this.$refs[formName].resetFields()
               this.dialogVisible = false
@@ -188,13 +189,10 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           Create(this.ruleForm2).then(res => {
-            if (res.errCode === 0) {
-              this.request()
+            if (res.code === 0) {
               this.$refs[formName].resetFields()
+              this.request()
               this.dialogVisible2 = false
-              // alert('管理员:'+this.ruleForm2.name+'创建成功')
-            } else {
-              // alert('管理员:'+this.ruleForm2.name+'创建失败')
             }
             console.log(res)
           })

@@ -22,7 +22,7 @@ export function Delete(data) {
       'Content-Type': 'application/json'
     },
     data: {
-      adminId: data
+      id: data
     }
   })
 }
