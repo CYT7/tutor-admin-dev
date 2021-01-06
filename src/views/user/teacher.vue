@@ -41,7 +41,9 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="props">
           <el-button size="mini" @click="handleAgree(props.$index, props.row)">通过</el-button>
-          <el-button slot="reference" size="mini" type="danger" @click="handleDisagree(props.$index, props.row)">不通过</el-button>
+          <el-popconfirm title="确定审核不通过嘛？" @onConfirm="handleDelete(scope.$index, scope.row)">
+            <el-button slot="reference" size="mini" type="danger" @click="handleDisagree(props.$index, props.row)">不通过</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
