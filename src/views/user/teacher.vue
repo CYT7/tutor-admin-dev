@@ -1,6 +1,17 @@
 <template>
   <div>
     <el-table ref="singleTable" :data="tableData" highlight-current-row border style="width: 100%">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="成功次数"> <span>{{ props.row.totalSuccess}}次</span> </el-form-item>
+            <el-form-item label="教学经验"> <span>{{ props.row.experience}}年</span> </el-form-item>
+            <el-form-item label="年龄"> <span>{{ props.row.age}}岁</span> </el-form-item>
+            <el-form-item label="课时费用"> <span>{{ props.row.hourPrice }}元</span> </el-form-item>
+            <el-form-item label="擅长科目"> <span>{{ props.row.goodAt}}</span> </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
       <el-table-column type="index" width="30" align="center" />
       <el-table-column property="id" label="老师ID" align="center" />
       <el-table-column label="头像路径" align="center">
@@ -17,11 +28,9 @@
       <el-table-column property="User.nickName" label="用户昵称" align="center" />
       <el-table-column property="User.realName" label="姓名" align="center" />
       <el-table-column property="User.phone" label="电话号码" align="center" />
-      <el-table-column property="totalSuccess" label="成功次数" align="center" />
-      <el-table-column property="experience" label="教学经验(年)" align="center" />
-      <el-table-column property="age" label="年龄" align="center" />
-      <!--      <el-table-column property="goodAt" label="擅长科目" align="center" />-->
-      <el-table-column property="hourPrice" label="课时费用" align="center" />
+      <el-table-column property="User.email" label="邮箱" align="center" />
+      <el-table-column property="User.qq" label="QQ" align="center" />
+      <el-table-column property="User.wechat" label="微信号" align="center" />
       <el-table-column label="性别" align="center">
         <template slot-scope="props">
           <span v-if="props.row.User.gender === 1">男</span>
