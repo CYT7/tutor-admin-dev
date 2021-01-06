@@ -124,6 +124,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/admin',
+    component: Layout,
+    children: [
+      {
+        path: '/admin',
+        name: 'admin',
+        component: () => import('@/views/admin/index'),
+        meta: { title: '系统管理人员', icon: 'set' }
+      }
+    ]
+  },
+  {
     path: 'external-link',
     component: Layout,
     children: [

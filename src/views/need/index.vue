@@ -107,12 +107,12 @@
 
 <script>
 const cityOptions = [
-  { type: 'info', label: '需求待审核', value: 1 },
-  { type: 'warning', label: '需求审核通过', value: 2 },
-  { type: 'success', label: '需求审核不通过', value: 3 },
-  { type: 'danger', label: '需求已选定老师', value: 4 },
-  { type: '', label: '需求已完成', value: 5 },
-  { type: '', label: '需求已关闭', value: 6 }
+  { type: 'warning', label: '需求待审核', value: 1 },
+  { type: 'info', label: '需求审核通过', value: 2 },
+  { type: 'danger', label: '需求审核不通过', value: 3 },
+  { type: '', label: '需求已选定老师', value: 4 },
+  { type: 'success', label: '需求已完成', value: 5 },
+  { type: 'danger', label: '需求已关闭', value: 6 }
 ]
 import { getNeedList, getNeedListForType, agreeNeed, disagreeNeed } from '@/api/need'
 export default {
