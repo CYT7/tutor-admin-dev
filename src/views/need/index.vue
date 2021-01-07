@@ -72,10 +72,10 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :hide-on-single-page="true"
-        :page-size="List.per_page"
+        :page-size="tableData.per_page"
         layout="total, prev, pager, next, jumper"
-        :page-count="List.totals"
-      ></el-pagination>
+        :page-count="tableData.totals"
+      />
     </div>
   </div>
 </template>
@@ -214,8 +214,8 @@ export default {
       this.page = val
       getNeedList(this.page).then(res => {
         console.log(res)
-        this.tableData = res.data
-        this.List = res
+        this.list = res.data
+        this.tableData = res
       })
       console.log(val)
       // console.log(`当前页: ${val}`);
