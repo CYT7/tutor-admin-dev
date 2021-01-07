@@ -6,11 +6,7 @@
       <el-table-column label="头像" align="center">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-image
-              style="height: 50px;width:50px"
-              :src="scope.row.image_url"
-              fit="cover"
-            />
+            <el-image style="height: 50px;width:50px" :src="scope.row.image_url" fit="cover" />
           </div>
         </template>
       </el-table-column>
@@ -37,7 +33,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
         :page-size="List.per_page"
@@ -49,7 +44,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { user } from '@/api/user'
 export default {
@@ -71,7 +65,6 @@ export default {
         this.List = res
       })
     },
-
     handleCurrentChange(val) {
       this.page = val
       user(val).then(res => {
@@ -127,7 +120,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .red {
-    color: red;
-  }
+  .red { color: red; }
 </style>

@@ -4,11 +4,11 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="成功次数"> <span>{{ props.row.totalSuccess}}次</span> </el-form-item>
-            <el-form-item label="教学经验"> <span>{{ props.row.experience}}年</span> </el-form-item>
-            <el-form-item label="年龄"> <span>{{ props.row.age}}岁</span> </el-form-item>
+            <el-form-item label="成功次数"> <span>{{ props.row.totalSuccess }}次</span> </el-form-item>
+            <el-form-item label="教学经验"> <span>{{ props.row.experience }}年</span> </el-form-item>
+            <el-form-item label="年龄"> <span>{{ props.row.age }}岁</span> </el-form-item>
             <el-form-item label="课时费用"> <span>{{ props.row.hourPrice }}元</span> </el-form-item>
-            <el-form-item label="擅长科目"> <span>{{ props.row.goodAt}}</span> </el-form-item>
+            <el-form-item label="擅长科目"> <span>{{ props.row.goodAt }}</span> </el-form-item>
           </el-form>
         </template>
       </el-table-column>
@@ -42,21 +42,20 @@
       <el-table-column align="center" property="User.loginTime" label="最后一次登录时间" :formatter="formatDate1" />
       <el-table-column align="center" label="审核状态">
         <template slot-scope="props">
-          <span v-if="props.row.state === 2 ">不通过</span>
-          <span v-else-if="props.row.state === 3">通过</span>
+          <span  v-if="props.row.state === 2 " style="color: #F56C6C; font-weight: bolder">不通过</span>
+          <span v-else-if="props.row.state === 3" style="color: #67C23A; font-weight: bolder">通过</span>
           <span v-else>已提交</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="props">
-          <el-button size="mini" @click="handleAgree(props.$index, props.row)">通过</el-button>
-          <el-popconfirm title="确定审核不通过嘛？" @onConfirm="handleDelete(scope.$index, scope.row)">
-            <el-button slot="reference" size="mini" type="danger" @click="handleDisagree(props.$index, props.row)">不通过</el-button>
+          <el-button size="mini" @click="handleAgree(props.$index, props.row)" >通过</el-button>
+          <el-popconfirm title="确定审核不通过嘛？" @onConfirm="handleDisagree(props.$index, props.row)">
+            <el-button slot="reference" size="mini" type="danger">不通过</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
-
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
         :page-size="List.per_page"
@@ -159,7 +158,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .red {
-    color: red;
-  }
+  .red { color: red;}
 </style>

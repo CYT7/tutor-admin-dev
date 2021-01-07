@@ -50,9 +50,9 @@
         <template slot-scope="scope">
           <div v-if="scope.row.state === 1" style="font-weight: bolder">审核中</div>
           <div v-else-if="scope.row.state === 2" style="color: #F56C6C; font-weight: bolder">审核不通过</div>
-          <div v-else-if="scope.row.state === 3" style="color: #409EFF; font-weight: bolder">审核通过</div>
+          <div v-else-if="scope.row.state === 3" style="color: #67C23A; font-weight: bolder">审核通过</div>
           <div v-else-if="scope.row.state === 4" style="color: #E6A23C; font-weight: bolder">已选定</div>
-          <div v-else-if="scope.row.state === 5" style="color: #67C23A; font-weight: bolder">已完成</div>
+          <div v-else-if="scope.row.state === 5" style="color: #409EFF; font-weight: bolder">已完成</div>
           <div v-else style="color: #F56C6C; font-weight: bolder">已关闭</div>
         </template>
       </el-table-column>
