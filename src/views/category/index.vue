@@ -54,8 +54,8 @@
                 <el-input v-model="ruleForm2.name" />
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm2('ruleForm2')">立即创建</el-button>
-                <el-button @click="resetForm2('ruleForm2')">重置</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm2')">立即创建</el-button>
+                <el-button @click="resetForm('ruleForm2')">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -85,17 +85,6 @@ export default {
       dialogVisible2: false,
       page: 1,
       tableData: [],
-      ruleForm: {
-        name: '',
-        pass: '',
-        region: '',
-        Id: ''
-      },
-      rules: {
-        pass: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-        name: [{ required: true, message: '请输入帐户名', trigger: 'blur' }],
-        region: [{ required: true, message: '请选择状态', trigger: 'blur' }]
-      },
       ruleForm2: {
         name: '',
         parentId: ''
@@ -116,7 +105,6 @@ export default {
         this.List = res
       })
     },
-
     handleDelete(index, row) {
       console.log(row.id)
       remove(row.id).then(res => {
@@ -131,10 +119,10 @@ export default {
         })
         .catch(_ => {})
     },
-    submitForm2(formName) {
+    submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          add(this.ruleForm2).then(res => {
+          add(this.ruleForm).then(res => {
             if (res.code === 0) {
               this.request()
               this.$refs[formName].resetFields()
@@ -148,7 +136,7 @@ export default {
         }
       })
     },
-    resetForm2(formName) {
+    resetForm(formName) {
       this.$refs[formName].resetFields()
     },
     handleSizeChange(val) {
@@ -156,7 +144,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val
-      pagination(val).then(res => {
+      category(val).then(res => {
         console.log(res)
         this.tableData = res.data
         this.List = res
@@ -190,14 +178,6 @@ export default {
 <style lang="scss" scoped>
   .app-container {
     min-width: 1500px;
-    .roles-table {
-      margin-top: 30px;
-    }
-    .permission-tree {
-      margin-bottom: 30px;
-    }
-    .red {
-      color: red;
-    }
+    .red { color: red; }
   }
 </style>
