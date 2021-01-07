@@ -54,8 +54,8 @@
                 <el-input v-model="ruleForm2.name" />
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm2')">立即创建</el-button>
-                <el-button @click="resetForm('ruleForm2')">重置</el-button>
+                <el-button type="primary" @click="submitForm2('ruleForm2')">立即创建</el-button>
+                <el-button @click="resetForm2('ruleForm2')">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -71,11 +71,10 @@
         :page-count="List.total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-      ></el-pagination>
+      />
     </div>
   </div>
 </template>
-
 <script>
 import { category, remove, add } from '@/api/category'
 export default {
@@ -119,10 +118,10 @@ export default {
         })
         .catch(_ => {})
     },
-    submitForm(formName) {
+    submitForm2(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          add(this.ruleForm).then(res => {
+          add(this.ruleForm2).then(res => {
             if (res.code === 0) {
               this.request()
               this.$refs[formName].resetFields()
@@ -136,7 +135,7 @@ export default {
         }
       })
     },
-    resetForm(formName) {
+    resetForm2(formName) {
       this.$refs[formName].resetFields()
     },
     handleSizeChange(val) {
@@ -178,6 +177,14 @@ export default {
 <style lang="scss" scoped>
   .app-container {
     min-width: 1500px;
-    .red { color: red; }
+    .roles-table {
+      margin-top: 30px;
+    }
+    .permission-tree {
+      margin-bottom: 30px;
+    }
+    .red {
+      color: red;
+    }
   }
 </style>
