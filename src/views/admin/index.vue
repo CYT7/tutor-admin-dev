@@ -86,13 +86,13 @@
     </el-dialog>
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
         :hide-on-single-page="true"
         :page-size="List.per_page"
         layout="total, prev, pager, next, jumper"
-        :page-count="List.total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+        :page-count="List.totals"
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -154,8 +154,8 @@ export default {
       Delete(row.id).then(res => {
         console.log(res)
         this.request()
-      });
-      console.log(index, row.id);
+      })
+      console.log(index, row.id)
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
@@ -212,7 +212,7 @@ export default {
       this.page = val
       pagination(val).then(res => {
         console.log(res)
-        this.tableData = res.results
+        this.tableData = res.data
         this.List = res
       })
       console.log(val)

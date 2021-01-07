@@ -15,59 +15,44 @@
         </el-checkbox>
       </el-checkbox-group>
     </el-header>
-    <el-table
-      v-loading="loading"
-      :data="this.list"
-      border
-      fit
-      stripe
-      style="width: 100%;margin-top:30px"
-    >
+    <el-table v-loading="loading" :data="this.list" border fit stripe style="width: 100%;margin-top:30px">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="学生称呼">
-              <span>{{ props.row.name }}</span>
-            </el-form-item>
-          </el-form>
-          <el-form label-position="left">
-            <el-form-item label="详情信息">
-              <template>
-                <el-table :data="props.row.Product" style="width: 100%" border height="250">
-                  <el-table-column prop="address" label="上课地址" align="center" />
-                  <el-table-column prop="subject" label="科目" align="center" />
-                </el-table>
-              </template>
-            </el-form-item>
+            <el-form-item label="同学称呼"> <span>{{ props.row.nickName}}</span> </el-form-item>
+            <el-form-item label="科目"> <span>{{ props.row.subject}}</span> </el-form-item>
+            <el-form-item label="同学QQ联系方式"> <span>{{ props.row.qq}}</span> </el-form-item>
+            <el-form-item label="同学wechat联系方式"> <span>{{ props.row.wechat}}</span> </el-form-item>
+            <el-form-item label="上课时间"> <span>{{ props.row.teach_date}}</span> </el-form-item>
+            <el-form-item label="地址"> <span>{{ props.row.address}}</span> </el-form-item>
           </el-form>
         </template>
       </el-table-column>
       <el-table-column label="预约 ID" prop="id" align="center" />
-      <el-table-column label="需要授课几次" prop="frequency" align="center" />
-      <el-table-column label="每小时几元" prop="cashFee" align="center" />
-      <el-table-column label="老师报价" prop="totalPrice" align="center" />
+      <el-table-column label="共上课几次" prop="frequency" align="center" />
+      <el-table-column label="每次上课几小时" prop="timeHour" align="center" />
+      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice }}元</p></template></el-table-column>
+      <el-table-column label="预约总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice }}元</p></template></el-table-column>
       <el-table-column label="预约创建时间" prop="createTime" :formatter="formatDate" align="center" />
       <el-table-column label="预约更新时间" prop="updateTime" :formatter="formatDate1" align="center" />
-      <el-table-column label="预约创建人" prop="User.nickName" align="center" />
-      <el-table-column label="预约的老师" prop="teacher.User.nickName" align="center" />
-      <el-table-column label="预约状态" prop="orderStatus" align="center">
+      <el-table-column label="预约状态" prop="state" align="center">
         <template slot-scope="scope">
-          <div v-if="scope.row.state === 0" style="font-weight: bolder">未预约</div>
+          <div v-if="scope.row.state === 0" style="font-weight: bolder">未回应预约</div>
           <div v-else-if="scope.row.state === 1" style="color: #409EFF; font-weight: bolder">已预约 待付款</div>
           <div v-else-if="scope.row.state === 2" style="color: #E6A23C; font-weight: bolder">进行中</div>
-          <div v-else-if="scope.row.state === 3" style="color: #67C23A; font-weight: bolder" >已完成</div>
+          <div v-else-if="scope.row.state === 3" style="color: #67C23A; font-weight: bolder">已完成</div>
           <div v-else style="color: #F56C6C; font-weight: bolder">已关闭</div>
         </template>
       </el-table-column>
     </el-table>
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
         :hide-on-single-page="true"
         :page-size="tableData.per_page"
         layout="total, prev, pager, next, jumper"
-        :page-count="tableData.total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
+        :page-count="tableData.totals"
       />
     </div>
   </div>
@@ -187,7 +172,7 @@ export default {
       this.page = val
       getAppointsList(this.page).then(res => {
         console.log(res)
-        this.list = res.results
+        this.list = res.data
       })
       console.log(val)
     },

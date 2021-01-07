@@ -62,15 +62,14 @@
         </template>
       </span>
     </el-dialog>
-
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :hide-on-single-page="true"
-        :page-size="tableData.per_page"
+        :page-size="List.per_page"
         layout="total, prev, pager, next, jumper"
-        :page-count="tableData.total"
+        :page-count="List.totals"
       ></el-pagination>
     </div>
   </div>

@@ -58,12 +58,13 @@
     </el-table>
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
-        :page-size="List.per_page"
-        :hide-on-single-page="true"
-        layout="total, prev, pager, next, jumper"
-        :page-count="List.total"
+        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-      />
+        :hide-on-single-page="true"
+        :page-size="List.per_page"
+        layout="total, prev, pager, next, jumper"
+        :page-count="List.totals"
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -92,7 +93,7 @@ export default {
       this.page = val
       teacher(val).then(res => {
         console.log(res)
-        this.tableData = res.results
+        this.tableData = res.data
         this.List = res
       })
       console.log(val)
