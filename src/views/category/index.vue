@@ -65,13 +65,13 @@
 
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
-        :hide-on-single-page="true"
-        :page-size="List.per_page"
-        layout="total, prev, pager, next, jumper"
-        :page-count="List.total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-      />
+        :hide-on-single-page="true"
+        :page-size="tableData.per_page"
+        layout="total, prev, pager, next, jumper"
+        :page-count="tableData.total"
+      ></el-pagination>
     </div>
   </div>
 </template>

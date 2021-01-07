@@ -67,7 +67,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { teacher, Agree, Disagree } from '@/api/user'
 export default {
