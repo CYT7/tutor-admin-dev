@@ -43,7 +43,7 @@
       <el-table-column label="每次上课几小时" prop="timeHour" align="center" />
       <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice }}元</p></template></el-table-column>
       <el-table-column label="需求总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice }}元</p></template></el-table-column>
-      <el-table-column label="需求创建人" prop="User.nickName" align="center" />
+<!--      <el-table-column label="需求创建人" prop="User" align="center" />-->
       <el-table-column label="需求创建时间" prop="createTime" :formatter="formatDate" align="center" />
       <el-table-column label="需求更新时间" prop="updateTime" :formatter="formatDate1" align="center" />
       <el-table-column label="需求状态" prop="state" align="center">
@@ -83,9 +83,9 @@
 <script>
 const cityOptions = [
   { type: 'warning', label: '需求待审核', value: 1 },
-  { type: 'info', label: '需求审核通过', value: 2 },
-  { type: 'danger', label: '需求审核不通过', value: 3 },
-  { type: '', label: '需求已选定老师', value: 4 },
+  { type: 'danger', label: '需求审核不通过', value: 2 },
+  { type: '', label: '需求审核通过', value: 3 },
+  { type: 'info', label: '需求已选定老师', value: 4 },
   { type: 'success', label: '需求已完成', value: 5 },
   { type: 'danger', label: '需求已关闭', value: 6 }
 ]

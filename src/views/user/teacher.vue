@@ -39,7 +39,7 @@
         </template>
       </el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间" :formatter="formatDate" />
-      <el-table-column align="center" property="updateTime" label="更新时间" :formatter="formatDate1" />
+      <el-table-column align="center" property="User.loginTime" label="最后一次登录时间" :formatter="formatDate1" />
       <el-table-column align="center" label="审核状态">
         <template slot-scope="props">
           <span v-if="props.row.state === 2 ">不通过</span>
@@ -135,7 +135,7 @@ export default {
       return Y + M + D + ' ' + h + m + s
     },
     formatDate1(row) {
-      const date = new Date(parseInt(row.updateTime) * 1000)
+      const date = new Date(parseInt(row.User.loginTime) * 1000)
       const Y = date.getFullYear() + '-'
       const M =
           date.getMonth() + 1 < 10

@@ -4,12 +4,8 @@
     <div class="dashboard-editor-container">
       <el-row :gutter="25" class="panel-group">
         <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
-          <div
-            class="card-panel"
-            style="background-image: linear-gradient(to right, #0493fc , #03bef5);"
-            @click="handleSetLineChartData('newVisitis')"
-          >
-            <div class="card-panel-icon-wrapper icon-business" style="display:flex;">
+          <div class="card-panel" style="background-image: linear-gradient(to right, #0493fc , #03bef5);" @click="handleSetLineChartData('newVisitis')">
+            <div class="card-panel-icon-wrapper icon-people" style="display:flex;">
               <svg-icon icon-class="peoples" class-name="card-panel-icon" />
               <div class="card-panel-text">用户</div>
             </div>
@@ -19,12 +15,8 @@
           </div>
         </el-col>
         <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
-          <div
-            class="card-panel"
-            style="background-image: linear-gradient(to right, #FF8C00 , #FFA500);"
-            @click="handleSetLineChartData('newVisitis')"
-          >
-            <div class="card-panel-icon-wrapper icon-business" style="display:flex;">
+          <div class="card-panel" style="background-image: linear-gradient(to right, #FF8C00 , #FFA500);" @click="handleSetLineChartData('newVisitis')">
+            <div class="card-panel-icon-wrapper icon-people" style="display:flex;">
               <svg-icon icon-class="peoples" class-name="card-panel-icon" />
               <div class="card-panel-text">教师</div>
             </div>
@@ -34,11 +26,7 @@
           </div>
         </el-col>
         <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
-          <div
-            class="card-panel"
-            style="background-image: linear-gradient(to right, #11d597 , #30ebc0);"
-            @click="handleSetLineChartData('messages')"
-          >
+          <div class="card-panel" style="background-image: linear-gradient(to right, #11d597 , #30ebc0);" @click="handleSetLineChartData('messages')">
             <div class="card-panel-icon-wrapper icon-business" style="display:flex;">
               <svg-icon icon-class="message" class-name="card-panel-icon" />
               <div class="card-panel-text">需求</div>
@@ -49,28 +37,19 @@
           </div>
         </el-col>
         <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
-          <div
-            class="card-panel"
-            style="background-image: linear-gradient(to right, #fc5252 , #ff8c67);"
-            @click="handleSetLineChartData('shoppings')"
-          >
+          <div class="card-panel" style="background-image: linear-gradient(to right, #fc5252 , #ff8c67);" @click="handleSetLineChartData('shoppings')">
             <div class="card-panel-icon-wrapper icon-business" style="display:flex;">
               <svg-icon icon-class="business" class-name="card-panel-icon" />
               <div class="card-panel-text">预约</div>
             </div>
             <div class="card-panel-description">
-              <!-- <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" /> -->
               <div class="card-panel-num">{{ data.appointCount }}</div>
             </div>
           </div>
         </el-col>
         <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
-          <div
-            class="card-panel"
-            style="background-image: linear-gradient(to right, #ffbf37 , #fed23d);"
-            @click="handleSetLineChartData('purchases')"
-          >
-            <div class="card-panel-icon-wrapper icon-business" style="display:flex;">
+          <div class="card-panel" style="background-image: linear-gradient(to right, #ffbf37 , #fed23d);" @click="handleSetLineChartData('purchases')">
+            <div class="card-panel-icon-wrapper icon-people" style="display:flex;">
               <svg-icon icon-class="admin" class-name="card-panel-icon" />
               <div class="card-panel-text">管理员</div>
             </div>
@@ -83,31 +62,15 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from 'vuex'
 import { index } from '@/api/dashboard'
 export default {
   name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
-  },
+  computed: { ...mapGetters(['name']) },
   data() {
     return {
-      data: '',
-      user: [],
-      charts: '',
-      opinion: ['普通用户', '会员用户'],
-      opinionData: [
-        { value: null, name: '普通用户', itemStyle: '#1ab394' },
-        { value: null, name: '会员用户', itemStyle: '#79d2c0' }
-      ],
-      tableData: [],
-      ordersCount: [],
-      turnoverTotal: [],
-      xData: []
+      data: ''
     }
   },
   created() {
@@ -124,7 +87,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
   .dashboard {
     min-width: 1000px;
@@ -157,12 +119,6 @@ export default {
       .icon-people {
         color: #fff;
       }
-      .icon-message {
-        color: #fff;
-      }
-      .icon-money {
-        color: #fff;
-      }
       .icon-business {
         color: #fff;
       }
@@ -177,24 +133,14 @@ export default {
         margin: 55px 0 0 50px;
         border-radius: 6px;
       }
-      .card-panel-icon {
-        float: left;
-        font-size: 30px;
-      }
       .card-panel-description {
         float: right;
         .card-panel-num {
-          font-size: 25px;
+          font-size: 24px;
           color: #fff;
-          margin: 55px 60px 0 0;
+          margin: 60px 60px 0 0;
         }
       }
     }
-  }
-  .el-table .warning-row {
-    background: oldlace;
-  }
-  .el-table .success-row {
-    background: #f0f9eb;
   }
 </style>

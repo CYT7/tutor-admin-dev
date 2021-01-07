@@ -3,13 +3,7 @@
     <el-table ref="singleTable" :data="tableData" highlight-current-row border style="width: 100%">
       <el-table-column type="index" width="50" align="center" />
       <el-table-column property="id" label="用户ID" align="center" />
-      <el-table-column property="nickName" label="用户昵称" align="center" />
-      <el-table-column property="realName" label="真实姓名" align="center" />
-      <el-table-column property="phone" label="电话号码" align="center" />
-      <el-table-column property="email" label="邮箱" align="center" />
-      <el-table-column property="qq" label="QQ" align="center" />
-      <el-table-column property="wechat" label="微信号" align="center" />
-      <el-table-column label="头像路径" align="center">
+      <el-table-column label="头像" align="center">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
             <el-image
@@ -20,6 +14,12 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column property="nickName" label="用户昵称" align="center" />
+      <el-table-column property="realName" label="真实姓名" align="center" />
+      <el-table-column property="phone" label="电话号码" align="center" />
+      <el-table-column property="email" label="邮箱" align="center" />
+      <el-table-column property="qq" label="QQ" align="center" />
+      <el-table-column property="wechat" label="微信号" align="center" />
       <el-table-column label="性别" align="center">
         <template slot-scope="props">
           <span v-if="props.row.gender === 1">男</span>
