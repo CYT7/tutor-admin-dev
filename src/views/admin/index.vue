@@ -101,13 +101,11 @@ import { pagination, Delete, Create, Modify } from '@/api/admin'
 export default {
   data() {
     return {
-      currentPage4: 4,
       List: [],
       dialogVisible2: false,
       page: 1,
       dialogVisible: false,
       tableData: [],
-      DataList: [],
       ruleForm: {
         realName: null,
         password: null,
@@ -215,6 +213,7 @@ export default {
         this.tableData = res.data
         this.List = res
       })
+      console.log(this.tableData);
       console.log(val)
     },
     formatDate1(row) {
