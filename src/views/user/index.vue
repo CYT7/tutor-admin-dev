@@ -99,8 +99,8 @@ export default {
       return Y + M + D + ' ' + h + m + s
     },
     formatDate1(row) {
+      if (row.loginTime === null) { return null }
       const date = new Date(parseInt(row.loginTime) * 1000)
-      if (date === null) { return null }
       const Y = date.getFullYear() + '-'
       const M =
         date.getMonth() + 1 < 10
