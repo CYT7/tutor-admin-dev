@@ -16,6 +16,7 @@
       <el-table-column property="email" label="邮箱" align="center" />
       <el-table-column property="qq" label="QQ" align="center" />
       <el-table-column property="wechat" label="微信号" align="center" />
+      <el-table-column property="address" label="地址" align="center" :formatter="formatAddress" />
       <el-table-column label="性别" align="center">
         <template slot-scope="props">
           <span v-if="props.row.gender === 1">男</span>
@@ -35,18 +36,19 @@
     </el-table>
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :hide-on-single-page="true"
         :page-size="List.per_page"
         layout="total, prev, pager, next, jumper"
         :page-count="List.totals"
-      ></el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
 <script>
 import { user } from '@/api/user'
+import { CodeToText } from 'element-china-area-data'
 export default {
   data() {
     return {
@@ -98,6 +100,7 @@ export default {
     },
     formatDate1(row) {
       const date = new Date(parseInt(row.loginTime) * 1000)
+      if (date === null) { return null }
       const Y = date.getFullYear() + '-'
       const M =
         date.getMonth() + 1 < 10
@@ -116,6 +119,26 @@ export default {
       const s =
         date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
       return Y + M + D + ' ' + h + m + s
+    },
+    formatAddress(row) {
+      if (row.address === null) {
+        return null
+      }
+      let area = ''
+      switch (row.address.length) {
+        case 1:
+          area += CodeToText[row.address[0]]
+          break
+        case 2:
+          area += CodeToText[row.address[0]] + '/' + CodeToText[row.address[1]]
+          break
+        case 3:
+          area += CodeToText[row.address[0]] + '/' + CodeToText[row.address[1]] + '/' + CodeToText[row.address[2]]
+          break
+        default:
+          break
+      }
+      return area
     }
   }
 }
