@@ -55,7 +55,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
+      location.reload()
       removeToken('Token')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
