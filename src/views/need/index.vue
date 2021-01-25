@@ -109,7 +109,6 @@ export default {
       dialogVisible: false
     }
   },
-
   created() {
     this.getList()
   },

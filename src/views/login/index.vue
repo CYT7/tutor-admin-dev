@@ -120,7 +120,7 @@ export default {
               this.$notify({
                 title: 'Success',
                 dangerouslyUseHTMLString: true,
-                message: res.Msg,
+                message: res.data.msg,
                 type: 'Success'
               })
             })
