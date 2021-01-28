@@ -39,7 +39,7 @@
               class="demo-ruleForm"
             >
               <el-form-item label="父级id" prop="parentId">
-                <el-select v-model="ruleForm2.parentId" placeholder="请选择">
+                <el-select v-model="ruleForm2.parentId" placeholder="请选择" style="float: left">
                   <el-option v-for="item in catelist" :key="item.id" :label="item.name" :value="item.id" ></el-option>
                 </el-select>
               </el-form-item>
