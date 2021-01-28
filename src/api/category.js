@@ -12,6 +12,17 @@ export function category(query) {
     }
   })
 }
+// 总后台所有科目分类信息接口
+export function list(query) {
+  return request({
+    url: 'http://127.0.0.1:7001/admin/category/List',
+    method: 'get',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    data: {}
+  })
+}
 // 总后台科目分类创建接口
 export function add(query) {
   return request({

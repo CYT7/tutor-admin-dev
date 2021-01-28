@@ -19,15 +19,6 @@
         <template slot-scope="scope"><div slot="reference" class="name-wrapper"><span>{{ scope.row.name }}</span></div></template>
       </el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间" :formatter="formatDate" />
-      <el-table-column label="状态" style="width: 20%" align="center">
-        <template slot-scope="scope">
-          <div slot="reference" class="name-wrapper">
-            <span
-              :class="{red:scope.row.status != 1}"
-            >{{ scope.row.status == 1?'正常':'禁用' }}</span>
-          </div>
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-popconfirm title="确定删除此分类吗？" @onConfirm="handleDelete(scope.$index, scope.row)">
@@ -48,7 +39,9 @@
               class="demo-ruleForm"
             >
               <el-form-item label="父级id" prop="parentId">
-                <el-input v-model="ruleForm2.parentId" />
+                <el-select v-model="ruleForm2.parentId" placeholder="请选择">
+                  <el-option v-for="item in catelist" :key="item.id" :label="item.name" :value="item.id" ></el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="分类科目名" prop="name">
                 <el-input v-model="ruleForm2.name" />
@@ -75,7 +68,7 @@
   </div>
 </template>
 <script>
-import { category, remove, add } from '@/api/category'
+import { category, remove, add, list } from '@/api/category'
 export default {
   data() {
     return {
@@ -94,6 +87,7 @@ export default {
   },
   created() {
     this.request()
+    this.getCateList()
   },
   methods: {
     request() {
@@ -102,6 +96,13 @@ export default {
         this.tableData = res.data
         this.List = res
       })
+    },
+    getCateList() {
+      list().then(res => {
+        if (res.code === 0) {
+          this.catelist = res.data
+        }
+      });
     },
     handleDelete(index, row) {
       console.log(row.id)
