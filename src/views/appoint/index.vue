@@ -99,7 +99,6 @@ export default {
       this.loading = true
       getAppointsList(this.page)
         .then(response => {
-          console.log('orders: ', response)
           this.list = response.data
           this.tableData = response
           this.loading = false
