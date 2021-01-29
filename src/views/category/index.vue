@@ -122,7 +122,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           add(this.ruleForm2).then(res => {
-            if (res.code === 0) {
+            if (res.data.code === 0) {
               this.request()
               this.$refs[formName].resetFields()
               this.dialogVisible2 = false
