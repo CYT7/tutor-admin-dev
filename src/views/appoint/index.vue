@@ -8,7 +8,7 @@
       >
         <el-tag effect="dark">全部</el-tag>
       </el-checkbox>
-      <div style="margin: 15px 0;"></div>
+      <div style="margin: 15px 0;" />
       <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
         <el-checkbox v-for="(city,index) in cities" :key="index" :label="city.value">
           <el-tag :type="city.type">{{ city.label }}</el-tag>
@@ -19,12 +19,12 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="同学称呼"> <span>{{ props.row.nickName}}</span> </el-form-item>
-            <el-form-item label="科目"> <span>{{ props.row.subject}}</span> </el-form-item>
-            <el-form-item label="同学QQ联系方式"> <span>{{ props.row.qq}}</span> </el-form-item>
-            <el-form-item label="同学wechat联系方式"> <span>{{ props.row.wechat}}</span> </el-form-item>
-            <el-form-item label="上课时间"> <span>{{ props.row.teach_date}}</span> </el-form-item>
-            <el-form-item label="地址"> <span>{{ props.row.address}}</span> </el-form-item>
+            <el-form-item label="同学称呼"> <span>{{ props.row.nickName }}</span> </el-form-item>
+            <el-form-item label="科目"> <span>{{ props.row.subject }}</span> </el-form-item>
+            <el-form-item label="同学QQ联系方式"> <span>{{ props.row.qq }}</span> </el-form-item>
+            <el-form-item label="同学wechat联系方式"> <span>{{ props.row.wechat }}</span> </el-form-item>
+            <el-form-item label="上课时间"> <span>{{ props.row.teach_date }}</span> </el-form-item>
+            <el-form-item label="地址"> <span>{{formatAddress(props.row.address)}}</span> </el-form-item>
           </el-form>
         </template>
       </el-table-column>
@@ -47,12 +47,12 @@
     </el-table>
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :hide-on-single-page="true"
         :page-size="tableData.per_page"
         layout="total, prev, pager, next, jumper"
         :page-count="tableData.totals"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
       />
     </div>
   </div>
@@ -67,6 +67,7 @@ const cityOptions = [
   { type: 'danger', label: '预约已关闭', value: 4 }
 ]
 import { getAppointsList, getAppointsListForType } from '@/api/appoint'
+import { CodeToText } from 'element-china-area-data'
 export default {
   data() {
     return {
@@ -222,6 +223,26 @@ export default {
             date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
         return Y + M + D + h + m + s
       }
+    },
+    formatAddress: function(value) {
+      if (value === null) {
+        return null
+      }
+      let area = ''
+      switch (value.length) {
+        case 1:
+          area += CodeToText[value[0]]
+          break
+        case 2:
+          area += CodeToText[value[0]] + '/' + CodeToText[value[1]]
+          break
+        case 3:
+          area += CodeToText[value[0]] + '/' + CodeToText[value[1]] + '/' + CodeToText[value[2]]
+          break
+        default:
+          break
+      }
+      return area
     }
   }
 }
