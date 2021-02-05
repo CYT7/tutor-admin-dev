@@ -37,8 +37,8 @@
       <el-table-column label="需求 ID" prop="id" align="center" />
       <el-table-column label="需上课几次" prop="frequency" align="center" />
       <el-table-column label="每次上课几小时" prop="timeHour" align="center" />
-      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice }}元</p></template></el-table-column>
-      <el-table-column label="需求总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice }}元</p></template></el-table-column>
+      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice /100 }}元</p></template></el-table-column>
+      <el-table-column label="需求总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice /100 }}元</p></template></el-table-column>
       <el-table-column label="需求创建时间" prop="createTime" :formatter="formatDate" align="center" />
       <el-table-column label="需求更新时间" prop="updateTime" :formatter="formatDate1" align="center" />
       <el-table-column label="需求状态" prop="state" align="center">
@@ -52,7 +52,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
-        <template slot-scope="scope">
+        <template slot-scope="scope" v-if="scope.row.state === 1">
           <el-popconfirm title="确定审核通过吗？" @onConfirm="handleAgree(scope.$index, scope.row)">
             <el-button slot="reference" size="mini">通过</el-button>
           </el-popconfirm>
@@ -260,13 +260,6 @@ export default {
         const s =
             date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
         return Y + M + D + h + m + s
-      }
-    },
-    formatFee(row, column) {
-      if (!row.cashFee) {
-        return
-      } else {
-        return row.cashFee / 100 + '元'
       }
     },
     formatAddress: function(value) {

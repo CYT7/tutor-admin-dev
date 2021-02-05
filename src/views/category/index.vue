@@ -40,7 +40,7 @@
             >
               <el-form-item label="父级id" prop="parentId">
                 <el-select v-model="ruleForm2.parentId" placeholder="请选择" style="float: left">
-                  <el-option v-for="item in catelist" :key="item.id" :label="item.name" :value="item.id" ></el-option>
+                  <el-option v-for="item in catelist" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
               </el-form-item>
               <el-form-item label="分类科目名" prop="name">
@@ -57,13 +57,13 @@
     </el-dialog>
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :hide-on-single-page="true"
         :page-size="List.per_page"
         layout="total, prev, pager, next, jumper"
         :page-count="List.totals"
-      ></el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
@@ -73,6 +73,7 @@ export default {
   data() {
     return {
       List: [],
+      catelist: [],
       dialogVisible2: false,
       page: 1,
       tableData: [],
@@ -102,7 +103,7 @@ export default {
         if (res.code === 0) {
           this.catelist = res.data
         }
-      });
+      })
     },
     handleDelete(index, row) {
       console.log(row.id)
@@ -122,7 +123,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           add(this.ruleForm2).then(res => {
-            if (res.data.code === 0) {
+            if (res.code === 0) {
               this.request()
               this.$refs[formName].resetFields()
               this.dialogVisible2 = false

@@ -19,20 +19,22 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="同学称呼"> <span>{{ props.row.nickName }}</span> </el-form-item>
+            <el-form-item label="同学称呼"> <span>{{ props.row.name}}</span> </el-form-item>
             <el-form-item label="科目"> <span>{{ props.row.subject }}</span> </el-form-item>
-            <el-form-item label="同学QQ联系方式"> <span>{{ props.row.qq }}</span> </el-form-item>
-            <el-form-item label="同学wechat联系方式"> <span>{{ props.row.wechat }}</span> </el-form-item>
+            <el-form-item label="联系方式"> <span>{{ props.row.phone }}</span> </el-form-item>
+            <el-form-item label="同学QQ" v-if="props.row.qq?'':props.row.qq"> <span>{{ props.row.qq }}</span> </el-form-item>
+            <el-form-item label="同学wechat" v-if="props.row.wechat?'':props.row.wechat"> <span>{{ props.row.wechat }}</span> </el-form-item>
             <el-form-item label="上课时间"> <span>{{ props.row.teach_date }}</span> </el-form-item>
-            <el-form-item label="地址"> <span>{{formatAddress(props.row.address)}}</span> </el-form-item>
+            <el-form-item label="所在区域"> <span>{{ formatAddress(props.row.city) }}</span> </el-form-item>
+            <el-form-item label="详情地址"> <span>{{props.row.address}}</span> </el-form-item>
           </el-form>
         </template>
       </el-table-column>
       <el-table-column label="预约 ID" prop="id" align="center" />
       <el-table-column label="共上课几次" prop="frequency" align="center" />
       <el-table-column label="每次上课几小时" prop="timeHour" align="center" />
-      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice }}元</p></template></el-table-column>
-      <el-table-column label="预约总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice }}元</p></template></el-table-column>
+      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice /100 }}元</p></template></el-table-column>
+      <el-table-column label="预约总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice /100 }}元</p></template></el-table-column>
       <el-table-column label="预约创建时间" prop="createTime" :formatter="formatDate" align="center" />
       <el-table-column label="预约更新时间" prop="updateTime" :formatter="formatDate1" align="center" />
       <el-table-column label="预约状态" prop="state" align="center">
@@ -243,7 +245,14 @@ export default {
           break
       }
       return area
-    }
+    },
+    formatFee(row, column) {
+      if (!row.totalPrice) {
+        return
+      } else {
+        return row.totalPrice / 100 + '元'
+      }
+    },
   }
 }
 </script>
