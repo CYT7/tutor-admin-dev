@@ -218,7 +218,7 @@ export default {
     },
     formatDate1(row) {
       if (row.createTime === null) {
-
+        return ''
       } else {
         const date = new Date(parseInt(row.createTime) * 1000)
         const Y = date.getFullYear() + '-'

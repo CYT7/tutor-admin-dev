@@ -1,11 +1,7 @@
 <template>
   <div>
     <el-header style="margin-top:15px">
-      <el-checkbox
-        v-model="checkAll"
-        :indeterminate="isIndeterminate"
-        @change="handleCheckAllChange"
-      >
+      <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange" >
         <el-tag effect="dark">全部</el-tag>
       </el-checkbox>
       <div style="margin: 15px 0;" />

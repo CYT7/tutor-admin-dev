@@ -4,11 +4,27 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="成功次数"> <span>{{ props.row.totalSuccess }}次</span> </el-form-item>
-            <el-form-item label="教学经验"> <span>{{ props.row.experience }}年</span> </el-form-item>
-            <el-form-item label="年龄"> <span>{{ props.row.age }}岁</span> </el-form-item>
-            <el-form-item label="课时费用"> <span>{{ props.row.hourPrice }}元</span> </el-form-item>
-            <el-form-item label="擅长科目"> <span>{{ props.row.goodAt }}</span> </el-form-item>
+            <el-form-item label="学生证">
+              <el-image style="width: 200px; height: 200px" :src="props.row.StudentCard" fit="cover" />
+            </el-form-item>
+            <el-form-item label="身份证">
+              <el-image style="width: 200px; height: 200px" :src="props.row.identityCard" fit="cover" />
+            </el-form-item>
+            <el-form-item label="成功次数">
+              <span>{{ props.row.totalSuccess }}次</span>
+            </el-form-item>
+            <el-form-item label="教学经验">
+              <span>{{ props.row.experience }}年</span>
+            </el-form-item>
+            <el-form-item label="年龄">
+              <span>{{ props.row.age }}岁</span>
+            </el-form-item>
+            <el-form-item label="课时费用">
+              <span>{{ props.row.hourPrice / 100 }}元</span>
+            </el-form-item>
+            <el-form-item label="擅长科目">
+              <span>{{ props.row.goodAt }}</span>
+            </el-form-item>
           </el-form>
         </template>
       </el-table-column>
@@ -25,12 +41,9 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column property="User.nickName" label="用户昵称" align="center" />
-      <el-table-column property="User.realName" label="姓名" align="center" />
+      <el-table-column property="realName" label="姓名" align="center" />
       <el-table-column property="User.phone" label="电话号码" align="center" />
-      <el-table-column property="User.email" label="邮箱" align="center" />
-      <el-table-column property="User.qq" label="QQ" align="center" />
-      <el-table-column property="User.wechat" label="微信号" align="center" />
+      <el-table-column property="school" label="就读学校" align="center" />
       <el-table-column label="性别" align="center">
         <template slot-scope="props">
           <span v-if="props.row.User.gender === 1">男</span>
@@ -38,6 +51,7 @@
           <span v-else>不知</span>
         </template>
       </el-table-column>
+      <el-table-column property="city" label="所在区域" align="center" :formatter="formatAddress" />
       <el-table-column align="center" prop="createTime" label="创建时间" :formatter="formatDate" />
       <el-table-column align="center" property="User.loginTime" label="最后一次登录时间" :formatter="formatDate1" />
       <el-table-column align="center" label="审核状态">
@@ -48,7 +62,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
-        <template slot-scope="props">
+        <template slot-scope="props" v-if="props.row.state === 1 ">
           <el-button size="mini" @click="handleAgree(props.$index, props.row)" >通过</el-button>
           <el-popconfirm title="确定审核不通过嘛？" @onConfirm="handleDisagree(props.$index, props.row)">
             <el-button slot="reference" size="mini" type="danger">不通过</el-button>
@@ -70,6 +84,7 @@
 </template>
 <script>
 import { teacher, Agree, Disagree } from '@/api/user'
+import { CodeToText } from 'element-china-area-data'
 export default {
   data() {
     return {
@@ -153,10 +168,42 @@ export default {
       const s =
           date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
       return Y + M + D + ' ' + h + m + s
+    },
+    formatAddress(row) {
+      if (row.city === null) {
+        return null
+      }
+      let area = ''
+      switch (row.city.length) {
+        case 1:
+          area += CodeToText[row.city[0]]
+          break
+        case 2:
+          area += CodeToText[row.city[0]] + '/' + CodeToText[row.city[1]]
+          break
+        case 3:
+          area += CodeToText[row.city[0]] + '/' + CodeToText[row.city[1]] + '/' + CodeToText[row.city[2]]
+          break
+        default:
+          break
+      }
+      return area
     }
   }
 }
 </script>
 <style lang="scss" scoped>
   .red { color: red;}
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
 </style>
