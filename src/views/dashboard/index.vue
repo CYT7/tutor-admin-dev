@@ -67,12 +67,12 @@ import { mapGetters } from 'vuex'
 import { index } from '@/api/dashboard'
 export default {
   name: 'Dashboard',
-  computed: { ...mapGetters(['name']) },
   data() {
     return {
       data: ''
     }
   },
+  computed: { ...mapGetters(['name']) },
   created() {
     this.request()
   },
@@ -110,13 +110,23 @@ export default {
     min-width: 1000px;
     .card-panel {
       height: 138px;
+      cursor: pointer;
       margin-bottom: 20px;
       font-size: 12px;
       position: relative;
+      overflow: hidden;
+      color: #666;
+      background: #fff;
       border-radius: 8px;
       box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
       border-color: rgba(0, 0, 0, 0.05);
       .icon-people {
+        color: #fff;
+      }
+      .icon-message {
+        color: #fff;
+      }
+      .icon-money {
         color: #fff;
       }
       .icon-business {
@@ -131,15 +141,37 @@ export default {
         }
         float: left;
         margin: 55px 0 0 50px;
+        padding: 1px;
+        transition: all 0.38s ease-out;
         border-radius: 6px;
+      }
+      .card-panel-icon {
+        float: left;
+        font-size: 30px;
       }
       .card-panel-description {
         float: right;
         .card-panel-num {
-          font-size: 24px;
+          font-size: 25px;
           color: #fff;
-          margin: 60px 60px 0 0;
+          margin: 55px 60px 0 0;
         }
+      }
+    }
+  }
+  @media (max-width: 550px) {
+    .card-panel-description {
+      display: none;
+    }
+    .card-panel-icon-wrapper {
+      float: none !important;
+      width: 100%;
+      height: 100%;
+      margin: 0 !important;
+      .svg-icon {
+        display: block;
+        margin: 14px auto !important;
+        float: none !important;
       }
     }
   }

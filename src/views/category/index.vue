@@ -108,6 +108,11 @@ export default {
     handleDelete(index, row) {
       console.log(row.id)
       remove(row.id).then(res => {
+        this.$notify({
+          title: '成功',
+          message: res.msg,
+          type: 'success'
+        })
         console.log(res)
         this.request()
       })
@@ -127,7 +132,17 @@ export default {
               this.request()
               this.$refs[formName].resetFields()
               this.dialogVisible2 = false
+              this.$notify({
+                title: '成功',
+                message: res.msg,
+                type: 'success'
+              })
             }
+            this.$notify({
+              title: '失败',
+              message: res.msg,
+              type: 'error'
+            })
             console.log(res)
           })
         } else {

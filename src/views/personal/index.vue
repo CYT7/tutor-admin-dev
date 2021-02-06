@@ -152,7 +152,6 @@ export default {
   },
   created() {
     this.getList()
-    // console.log(this.CreateTime)
   },
   methods: {
     getList() {

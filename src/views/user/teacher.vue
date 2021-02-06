@@ -56,14 +56,14 @@
       <el-table-column align="center" property="User.loginTime" label="最后一次登录时间" :formatter="formatDate1" />
       <el-table-column align="center" label="审核状态">
         <template slot-scope="props">
-          <span  v-if="props.row.state === 2 " style="color: #F56C6C; font-weight: bolder">不通过</span>
+          <span v-if="props.row.state === 2 " style="color: #F56C6C; font-weight: bolder">不通过</span>
           <span v-else-if="props.row.state === 3" style="color: #67C23A; font-weight: bolder">通过</span>
           <span v-else>已提交</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
-        <template slot-scope="props" v-if="props.row.state === 1 ">
-          <el-button size="mini" @click="handleAgree(props.$index, props.row)" >通过</el-button>
+        <template v-if="props.row.state === 1" slot-scope="props">
+          <el-button size="mini" @click="handleAgree(props.$index, props.row)">通过</el-button>
           <el-popconfirm title="确定审核不通过嘛？" @onConfirm="handleDisagree(props.$index, props.row)">
             <el-button slot="reference" size="mini" type="danger">不通过</el-button>
           </el-popconfirm>
@@ -72,13 +72,13 @@
     </el-table>
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :hide-on-single-page="true"
         :page-size="List.per_page"
         layout="total, prev, pager, next, jumper"
         :page-count="List.totals"
-      ></el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
@@ -119,12 +119,22 @@ export default {
     handleAgree(index, row) {
       Agree(row.id).then(res => {
         console.log(res)
+        this.$notify({
+          title: '成功',
+          message: res.msg,
+          type: 'success'
+        })
         this.request()
       })
       console.log(index, row.id)
     },
     handleDisagree(index, row) {
       Disagree(row.id).then(res => {
+        this.$notify({
+          title: '成功',
+          message: res.msg,
+          type: 'success'
+        })
         console.log(res)
         this.request()
       })

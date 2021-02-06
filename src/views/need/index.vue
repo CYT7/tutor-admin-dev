@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-header style="margin-top:15px">
-      <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange" >
+      <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">
         <el-tag effect="dark">全部</el-tag>
       </el-checkbox>
       <div style="margin: 15px 0;" />
@@ -11,7 +11,7 @@
         </el-checkbox>
       </el-checkbox-group>
     </el-header>
-    <el-table v-loading="loading" :data="this.list" border fit stripe style="width: 100%;margin-top:30px">
+    <el-table v-loading="loading" :data="list" border fit stripe style="width: 100%;margin-top:30px">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -30,7 +30,7 @@
               <span v-else>不限</span>
             </el-form-item>
             <el-form-item label="上课时间"> <span>{{ props.row.teach_date }}</span> </el-form-item>
-            <el-form-item label="地址"> <span>{{formatAddress(props.row.address)}}</span> </el-form-item>
+            <el-form-item label="地址"><span>{{ formatAddress(props.row.address) }}</span></el-form-item>
           </el-form>
         </template>
       </el-table-column>
@@ -52,7 +52,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
-        <template slot-scope="scope" v-if="scope.row.state === 1">
+        <template v-if="scope.row.state === 1" slot-scope="scope">
           <el-popconfirm title="确定审核通过吗？" @onConfirm="handleAgree(scope.$index, scope.row)">
             <el-button slot="reference" size="mini">通过</el-button>
           </el-popconfirm>
@@ -212,7 +212,6 @@ export default {
         this.tableData = res
       })
       console.log(val)
-      // console.log(`当前页: ${val}`);
     },
     formatDate(row, column) {
       const date = new Date(parseInt(row.createTime) * 1000)
