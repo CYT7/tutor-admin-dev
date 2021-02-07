@@ -13,6 +13,12 @@
             <el-form-item label="成功次数">
               <span>{{ props.row.totalSuccess }}次</span>
             </el-form-item>
+            <el-form-item label="评分">
+              <span>{{ props.row.satisfaction / 100 }}分</span>
+            </el-form-item>
+            <el-form-item label="总评论次数">
+              <span>{{ props.row.totalComment }}次</span>
+            </el-form-item>
             <el-form-item label="教学经验">
               <span>{{ props.row.experience }}年</span>
             </el-form-item>
