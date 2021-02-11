@@ -14,7 +14,7 @@
               <span>{{ props.row.totalSuccess }}次</span>
             </el-form-item>
             <el-form-item label="评分">
-              <span>{{ props.row.satisfaction / 100 }}分</span>
+              <span>{{ props.row.satisfaction}}分</span>
             </el-form-item>
             <el-form-item label="总评论次数">
               <span>{{ props.row.totalComment }}次</span>
@@ -26,7 +26,7 @@
               <span>{{ props.row.age }}岁</span>
             </el-form-item>
             <el-form-item label="课时费用">
-              <span>{{ props.row.hourPrice / 100 }}元</span>
+              <span>{{ props.row.hourPrice}}元</span>
             </el-form-item>
             <el-form-item label="擅长科目">
               <span>{{ props.row.goodAt }}</span>

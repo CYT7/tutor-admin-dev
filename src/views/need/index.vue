@@ -37,8 +37,8 @@
       <el-table-column label="需求 ID" prop="id" align="center" />
       <el-table-column label="需上课几次" prop="frequency" align="center" />
       <el-table-column label="每次上课几小时" prop="timeHour" align="center" />
-      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice /100 }}元</p></template></el-table-column>
-      <el-table-column label="需求总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice /100 }}元</p></template></el-table-column>
+      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice}}元</p></template></el-table-column>
+      <el-table-column label="需求总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice}}元</p></template></el-table-column>
       <el-table-column label="需求创建时间" prop="createTime" :formatter="formatDate" align="center" />
       <el-table-column label="需求更新时间" prop="updateTime" :formatter="formatDate1" align="center" />
       <el-table-column label="需求状态" prop="state" align="center">

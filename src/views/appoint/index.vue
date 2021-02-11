@@ -33,8 +33,8 @@
       <el-table-column label="预约 ID" prop="id" align="center" />
       <el-table-column label="共上课几次" prop="frequency" align="center" />
       <el-table-column label="每次上课几小时" prop="timeHour" align="center" />
-      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice /100 }}元</p></template></el-table-column>
-      <el-table-column label="预约总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice /100 }}元</p></template></el-table-column>
+      <el-table-column label="每小时几元" align="center"><template slot-scope="scope"><p>{{ scope.row.hourPrice}}元</p></template></el-table-column>
+      <el-table-column label="预约总报价" align="center"><template slot-scope="scope"><p>{{ scope.row.totalPrice}}元</p></template></el-table-column>
       <el-table-column label="预约创建时间" prop="createTime" :formatter="formatDate" align="center" />
       <el-table-column label="预约更新时间" prop="updateTime" :formatter="formatDate1" align="center" />
       <el-table-column label="预约状态" prop="state" align="center">
@@ -245,13 +245,6 @@ export default {
           break
       }
       return area
-    },
-    formatFee(row, column) {
-      if (!row.totalPrice) {
-        return
-      } else {
-        return row.totalPrice / 100 + '元'
-      }
     },
   }
 }
