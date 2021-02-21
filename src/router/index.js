@@ -138,6 +138,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/banner',
+    component: Layout,
+    redirect: '/banner',
+    children: [
+      {
+        path: '/banner',
+        name: 'banner',
+        component: () => import('@/views/banner/index'),
+        meta: { title: '轮播图管理', icon: 'banner' }
+      }
+    ]
+  },
+  {
     path: 'external-link',
     component: Layout,
     children: [
