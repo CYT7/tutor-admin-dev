@@ -27,10 +27,18 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center" :formatter="formatDate1" />
       <el-table-column prop="updateTime" label="更新时间" align="center" :formatter="formatDate2" />
-      <el-table-column label="状态" style="width: 20%" align="center">
+      <el-table-column label="状态" align="center">
         <template slot-scope="scope">
-          <div v-if="scope.row.status === 0" style="color: red;">禁用</div>
-          <div v-else-if="scope.row.status === 1" style="color: #409EFF;">正常</div>
+          <el-switch
+            v-model="scope.row.status"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            :active-value="1"
+            active-text="正常"
+            :inactive-value="0"
+            inactive-text="禁用"
+            @change="handelUpdate(scope.$index, scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
@@ -86,18 +94,18 @@
     </el-dialog>
     <div class="block" style="text-align:center;margin-top:20px">
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :hide-on-single-page="true"
         :page-size="List.per_page"
         layout="total, prev, pager, next, jumper"
         :page-count="List.totals"
-      ></el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
 <script>
-import { pagination, Delete, Create, Modify } from '@/api/admin'
+import { pagination, Delete, Create, Modify, Disable, Recovery } from '@/api/admin'
 export default {
   data() {
     return {
@@ -154,6 +162,20 @@ export default {
         this.request()
       })
       console.log(index, row.id)
+    },
+    handelUpdate(index, row) {
+      console.log('stauts' + row.status)
+      if (row.status === 0) {
+        Disable(row.id).then(res => {
+          console.log(res)
+          this.request()
+        })
+      } else {
+        Recovery(row.id).then(res => {
+          console.log(res)
+          this.request()
+        })
+      }
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
@@ -213,7 +235,7 @@ export default {
         this.tableData = res.data
         this.List = res
       })
-      console.log(this.tableData);
+      console.log(this.tableData)
       console.log(val)
     },
     formatDate1(row) {

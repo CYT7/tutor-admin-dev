@@ -57,3 +57,29 @@ export function Modify(data) {
     }
   })
 }
+// 总后台管理员禁用
+export function Disable(data) {
+  return request({
+    url: 'http://127.0.0.1:7001/admin/disable',
+    method: 'POST',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      id: data
+    }
+  })
+}
+// 总后台管理员恢复
+export function Recovery(data) {
+  return request({
+    url: 'http://127.0.0.1:7001/admin/recovery',
+    method: 'POST',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      id: data
+    }
+  })
+}

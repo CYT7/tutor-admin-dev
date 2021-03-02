@@ -58,6 +58,17 @@
             </div>
           </div>
         </el-col>
+        <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
+          <div class="card-panel" style="background-image: linear-gradient(to right, #FFC1C1 , #EEB4B4);" @click="handleSetLineChartData('purchases')">
+            <div class="card-panel-icon-wrapper icon-people" style="display:flex;">
+              <svg-icon icon-class="admin" class-name="card-panel-icon" />
+              <div class="card-panel-text">轮播图</div>
+            </div>
+            <div class="card-panel-description">
+              <div class="card-panel-num">{{ data.adminCount }}</div>
+            </div>
+          </div>
+        </el-col>
       </el-row>
     </div>
   </div>
