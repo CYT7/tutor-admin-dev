@@ -245,7 +245,7 @@ export default {
           break
       }
       return area
-    },
+    }
   }
 }
 </script>

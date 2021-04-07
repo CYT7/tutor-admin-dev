@@ -137,12 +137,13 @@ export default {
                 message: res.msg,
                 type: 'success'
               })
+            }else {
+              this.$notify({
+                title: '失败',
+                message: res.msg,
+                type: 'error'
+              })
             }
-            this.$notify({
-              title: '失败',
-              message: res.msg,
-              type: 'error'
-            })
             console.log(res)
           })
         } else {

@@ -6,7 +6,8 @@
       <el-table-column label="头像" align="center">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-image style="height: 50px;width:50px" :src="scope.row.image_url" fit="cover" />
+            <el-image v-if="scope.row.image_url ==null" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" style="height: 50px;width:50px"></el-image>
+            <el-image v-else style="height: 50px;width:50px" :src="scope.row.image_url" fit="cover" />
           </div>
         </template>
       </el-table-column>
