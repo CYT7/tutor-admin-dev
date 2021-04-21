@@ -17,20 +17,21 @@
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="同学称呼"> <span>{{ props.row.nickName }}</span> </el-form-item>
             <el-form-item label="科目"> <span>{{ props.row.subject }}</span> </el-form-item>
-            <el-form-item label="同学QQ联系方式"> <span>{{ props.row.qq }}</span> </el-form-item>
-            <el-form-item label="同学wechat联系方式"> <span>{{ props.row.wechat }}</span> </el-form-item>
+            <el-form-item v-if="props.row.qq?'':props.row.qq" label="同学QQ联系方式"> <span>{{ props.row.qq }}</span> </el-form-item>
+            <el-form-item v-if="props.row.wechat?'':props.row.qq" label="同学wechat联系方式"> <span>{{ props.row.wechat }}</span> </el-form-item>
             <el-form-item label="同学性别">
-              <span v-if="props.row.gender === 1" style="font-weight: bolder">男</span>
-              <span v-else-if="props.row.gender === 2" style="color: #F56C6C; font-weight: bolder">女</span>
+              <span v-if="props.row.gender === 1">男</span>
+              <span v-else-if="props.row.gender === 2">女</span>
               <span v-else>不限</span>
             </el-form-item>
             <el-form-item label="教师性别要求">
-              <span v-if="props.row.teacherGender === 1" style="font-weight: bolder">男</span>
-              <span v-else-if="props.row.teacherGender === 2" style="color: #F56C6C; font-weight: bolder">女</span>
+              <span v-if="props.row.teacherGender === 2">男</span>
+              <span v-else-if="props.row.teacherGender === 3">女</span>
               <span v-else>不限</span>
             </el-form-item>
             <el-form-item label="上课时间"> <span>{{ props.row.teach_date }}</span> </el-form-item>
-            <el-form-item label="地址"><span>{{ formatAddress(props.row.address) }}</span></el-form-item>
+            <el-form-item label="城市"><span>{{ formatAddress(props.row.city) }}</span></el-form-item>
+            <el-form-item label="详细地址"><span>{{ props.row.address }}</span></el-form-item>
           </el-form>
         </template>
       </el-table-column>

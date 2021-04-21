@@ -52,9 +52,9 @@
       <el-table-column property="school" label="就读学校" align="center" />
       <el-table-column label="性别" align="center">
         <template slot-scope="props">
-          <span v-if="props.row.User.gender === 1">男</span>
-          <span v-else-if="props.row.User.gender === 2">女</span>
-          <span v-else>不知</span>
+          <span v-if="props.row.User.gender === 2">男</span>
+          <span v-else-if="props.row.User.gender === 3">女</span>
+          <span v-else>保密</span>
         </template>
       </el-table-column>
       <el-table-column property="city" label="所在区域" align="center" :formatter="formatAddress" />

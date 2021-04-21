@@ -164,7 +164,6 @@ export default {
       console.log(index, row.id)
     },
     handelUpdate(index, row) {
-      console.log('stauts' + row.status)
       if (row.status === 0) {
         Disable(row.id).then(res => {
           console.log(res)
@@ -267,7 +266,7 @@ export default {
     },
     formatDate2(row) {
       if (row.updateTime === null) {
-
+        return ''
       } else {
         const date = new Date(parseInt(row.updateTime) * 1000)
         const Y = date.getFullYear() + '-'

@@ -130,6 +130,7 @@ export default {
           add(this.ruleForm2).then(res => {
             if (res.code === 0) {
               this.request()
+              this.getCateList()
               this.$refs[formName].resetFields()
               this.dialogVisible2 = false
               this.$notify({
